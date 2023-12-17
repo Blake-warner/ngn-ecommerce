@@ -1,0 +1,30 @@
+{
+  "name": "ecommerce-storefront-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/ecommerce-storefront-e2e/src",
+  "targets": {
+    "e2e": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/ecommerce-storefront-e2e/cypress.config.ts",
+        "testingType": "e2e",
+        "devServerTarget": "ecommerce-storefront:serve:development"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "ecommerce-storefront:serve:production"
+        },
+        "ci": {
+          "devServerTarget": "ecommerce-storefront:serve-static"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["ecommerce-storefront"]
+}
