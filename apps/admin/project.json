@@ -1,26 +1,23 @@
 {
-  "name": "ecommerce-storefront",
+  "name": "admin",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "prefix": "app",
-  "sourceRoot": "apps/ecommerce-storefront/src",
+  "prefix": "angular-nest-eccomerce-platform",
+  "sourceRoot": "apps/admin/src",
   "tags": [],
   "targets": {
     "build": {
       "executor": "@angular-devkit/build-angular:application",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/apps/ecommerce-storefront",
-        "index": "apps/ecommerce-storefront/src/index.html",
-        "browser": "apps/ecommerce-storefront/src/main.ts",
+        "outputPath": "dist/apps/admin",
+        "index": "apps/admin/src/index.html",
+        "browser": "apps/admin/src/main.ts",
         "polyfills": ["zone.js"],
-        "tsConfig": "apps/ecommerce-storefront/tsconfig.app.json",
+        "tsConfig": "apps/admin/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
-        "assets": [
-          "apps/ecommerce-storefront/src/favicon.ico",
-          "apps/ecommerce-storefront/src/assets"
-        ],
-        "styles": ["apps/ecommerce-storefront/src/styles.scss"],
+        "assets": ["apps/admin/src/favicon.ico", "apps/admin/src/assets"],
+        "styles": ["apps/admin/src/styles.scss"],
         "scripts": []
       },
       "configurations": {
@@ -51,10 +48,10 @@
       "executor": "@angular-devkit/build-angular:dev-server",
       "configurations": {
         "production": {
-          "buildTarget": "ecommerce-storefront:build:production"
+          "buildTarget": "admin:build:production"
         },
         "development": {
-          "buildTarget": "ecommerce-storefront:build:development"
+          "buildTarget": "admin:build:development"
         }
       },
       "defaultConfiguration": "development"
@@ -62,7 +59,7 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "buildTarget": "ecommerce-storefront:build"
+        "buildTarget": "admin:build"
       }
     },
     "lint": {
@@ -73,14 +70,14 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/ecommerce-storefront/jest.config.ts"
+        "jestConfig": "apps/admin/jest.config.ts"
       }
     },
     "serve-static": {
       "executor": "@nx/web:file-server",
       "options": {
-        "buildTarget": "ecommerce-storefront:build",
-        "staticFilePath": "dist/apps/ecommerce-storefront/browser"
+        "buildTarget": "admin:build",
+        "staticFilePath": "dist/apps/admin/browser"
       }
     }
   }
