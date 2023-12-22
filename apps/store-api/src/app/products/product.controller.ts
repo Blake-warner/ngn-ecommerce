@@ -31,7 +31,6 @@ export class ProductController {
     findAll() {
         const products = this.productService.find();
         return products;
-        //return this.productService.find();
     }
 
     /*
