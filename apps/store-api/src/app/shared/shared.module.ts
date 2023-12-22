@@ -11,6 +11,9 @@ import { CacheModule } from '@nestjs/cache-manager';
             host: 'localhost',
             port: 6379
         })
+    ],
+    exports: [
+        CacheModule
     ]
 })
 export class SharedModule {}

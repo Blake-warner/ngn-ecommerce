@@ -1,15 +1,6 @@
 version: '3.9'
 services:
-  
-  db:
-    image: arm64v8/mysql
-    restart: always
-    environment:
-      MYSQL_DATABASE: test
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
-      MYSQL_ROOT_PASSWORD: root
-    volumes:
-      - .dbdata:/var/lib/mysql
+  redis:
+    image: redis
     ports:
-      - 33066:3306
+      - 6379:6379
