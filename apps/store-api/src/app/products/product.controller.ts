@@ -5,6 +5,7 @@ import { ProductService } from './product.service';
 import { Cache } from "cache-manager";
 import * as CONSTANTS from '../shared/constants';
 import { CACHE_MANAGER, CacheInterceptor, CacheKey, CacheTTL } from '@nestjs/cache-manager';
+import { EventEmitter2 } from "@nestjs/event-emitter";
 
 const rootPath = CONSTANTS.versions; // /v1
 
@@ -12,21 +13,28 @@ const rootPath = CONSTANTS.versions; // /v1
 export class ProductController {
     constructor(
         @Inject(CACHE_MANAGER) private cacheManager: Cache,
-        private productService: ProductService
+        private productService: ProductService,
+        private eventEmitter: EventEmitter2
         ){}
 
     @Post('products')
     async create(@Body() createProductDto: CreateProductDto) {
-        return await this.productService.save(createProductDto);
+        const products = await this.productService.save(createProductDto);
+        this.eventEmitter.emit('products_updated');
+        return products;
     }
 
-    @Get('prodfucts')
+    @CacheKey('products_frontend')
+    @CacheTTL(30 * 60)
+    @UseInterceptors(CacheInterceptor)
+    @Get('products')
     findAll() {
         const products = this.productService.find();
         return products;
         //return this.productService.find();
     }
 
+    /*
     @CacheKey('products_frontend')
     @CacheTTL(30 * 60)
     @Get('products/frontend')
@@ -39,20 +47,24 @@ export class ProductController {
     backend() {
         return this.productService.find();
     }
-
+*/
     @Get('product/:id')
     findOne(@Param('id') id: string) {
-        console.log(id);
-        return this.productService.findOne({where: {id}});
+        const product = this.productService.findOne({where: {id}});
+        return product;
     }
 
     @Put('product/:id')
     update(@Param('id') id: number, @Body() updateProductDto: UpdateProductDto) {
-        return this.productService.update(id, updateProductDto);
+        const product =  this.productService.update(id, updateProductDto);
+        this.eventEmitter.emit('products');
+        return product;
     }
 
     @Delete('product/:id')
     remove(@Param('id') id: number) {
-        return this.productService.delete(id);
+        const deletedProduct = this.productService.delete(id);
+        this.eventEmitter.emit('products');
+        return deletedProduct;
     }
 }
