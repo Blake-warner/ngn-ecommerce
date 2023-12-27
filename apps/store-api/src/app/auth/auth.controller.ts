@@ -18,7 +18,7 @@ export class AuthController {
         return this.authService.signIn(body.username, body.password);
     }
 
-    @HttpCode(HttpStatus.OK)
+    @HttpCode(HttpStatus.CREATED)
     @Post('signup')
     async signup(@Body() body: SigninDto) {
         const {password, ...data} = body;
