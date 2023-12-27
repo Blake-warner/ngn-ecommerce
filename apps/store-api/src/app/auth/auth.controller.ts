@@ -3,8 +3,11 @@ import { SigninDto } from './dtos/signin.dto';
 import { AuthService } from './auth.service';
 import { UserService } from '../users/user.service';
 import * as bcrypt from "bcryptjs";
+import * as CONSTANTS from "../shared/constants";
 
-@Controller('auth')
+const rootPath = CONSTANTS.versions; // /v1
+
+@Controller(rootPath)
 export class AuthController {
 
     constructor(
@@ -13,13 +16,13 @@ export class AuthController {
         ){}
 
     @HttpCode(HttpStatus.OK)
-    @Post('signin')
+    @Post('auth/signin')
     async signin(@Body() body: SigninDto) {
         return this.authService.signIn(body.username, body.password);
     }
 
     @HttpCode(HttpStatus.CREATED)
-    @Post('signup')
+    @Post('auth/signup')
     async signup(@Body() body: SigninDto) {
         const {password, ...data} = body;
 

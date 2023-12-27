@@ -18,5 +18,5 @@ export class SigninDto {
     last_name?: string;
 
     @IsEnum(UserRoles)
-    user_role?: UserRoles;
+    role?: UserRoles;
 }
