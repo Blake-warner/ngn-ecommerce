@@ -34,7 +34,6 @@ export class UserController {
     @Put('user/:id')
     update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
         const product =  this.userService.update(id, updateUserDto);
-        this.eventEmitter.emit('products');
         return product;
     }
 
@@ -42,7 +41,7 @@ export class UserController {
     @Delete('user/:id')
     remove(@Param('id') id: number) {
         const deletedUser = this.userService.delete(id);
-        this.eventEmitter.emit('users');
+        console.log("delete users: ", deletedUser);
         return deletedUser;
     }
 }

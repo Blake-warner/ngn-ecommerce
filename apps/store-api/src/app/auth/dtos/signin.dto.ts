@@ -1,5 +1,4 @@
-import {IsEnum, IsEmail, IsNotEmpty, IsString} from "class-validator";
-import { UserRoles } from "../../users/user-roles";
+import {IsEmail, IsNotEmpty, IsString} from "class-validator";
 
 export class SigninDto {
 
@@ -11,12 +10,4 @@ export class SigninDto {
     @IsString()
     password: string;
 
-    @IsString()
-    first_name?: string;
-
-    @IsString()
-    last_name?: string;
-
-    @IsEnum(UserRoles)
-    role?: UserRoles;
 }
