@@ -2,6 +2,7 @@ import { DataSource } from 'typeorm';
 import { Product } from '../products/product.entity';
 import { Category } from '../categories/category.entity';
 import { Attribute } from '../attributes/attribute.entity';
+import { User } from '../users/user.entity';
 
 export const databaseProviders = [
   {
@@ -18,7 +19,8 @@ export const databaseProviders = [
             __dirname + '/../**/*.entity{.ts,.js}',
             Product,
             Category,
-            Attribute
+            Attribute,
+            User
         ],
         synchronize: true,
       });

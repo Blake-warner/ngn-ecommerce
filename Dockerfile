@@ -4,4 +4,4 @@ WORKDIR /app
 COPY package.json .
 RUN npm install
 COPY . .
-CMD nx serve ecommerce-storefront
+CMD npm run start:dev
