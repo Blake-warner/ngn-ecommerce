@@ -2,13 +2,15 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { UserService } from '../users/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '../users/user.entity';
-import * as bcrypt from "bcryptjs"
+import * as bcrypt from "bcryptjs";
+import { MailerService } from "@nestjs-modules/mailer";
 
 @Injectable()
-export class AuthService {
+export class AuthService{
   constructor(
     private userService: UserService,
-    private jwtService: JwtService
+    private jwtService: JwtService,
+    private readonly mailerService: MailerService
   ) {}
 
   async signIn(username, password) {
@@ -21,10 +23,10 @@ export class AuthService {
         throw new BadRequestException("Invalid Credentials");
     }
 
-
     const payload = { sub: user.id, username: user.username };
     return {
       access_token: await this.jwtService.signAsync(payload),
     };
   }
+
 }
