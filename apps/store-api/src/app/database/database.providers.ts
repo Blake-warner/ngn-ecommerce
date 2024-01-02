@@ -3,6 +3,7 @@ import { Product } from '../products/product.entity';
 import { Category } from '../categories/category.entity';
 import { Attribute } from '../attributes/attribute.entity';
 import { User } from '../users/user.entity';
+import { VerifyEmail } from '../auth/verify-email/verify-email.entity';
 
 export const databaseProviders = [
   {
@@ -20,7 +21,8 @@ export const databaseProviders = [
             Product,
             Category,
             Attribute,
-            User
+            User,
+            VerifyEmail
         ],
         synchronize: true,
       });
