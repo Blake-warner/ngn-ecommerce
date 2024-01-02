@@ -9,32 +9,22 @@ import { AttributeModule } from './attributes/attribute.module';
 import { SharedModule } from './shared/shared.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './users/user.module';
-// mailer 
-import { MailerModule } from '@nestjs-modules/mailer';
-import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
+import { ConfigModule } from '@nestjs/config';
+import { MailModule } from './mailer/mailer.module';
 
 @Module({
   imports: [
     ProductModule,
     CategoryModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     AttributeModule,
     SharedModule,
     EventEmitterModule.forRoot(),
     AuthModule,
     UserModule,
-    MailerModule.forRoot({
-      transport: 'smtps://user@domain.com:pass@smtp.domain.com',
-      defaults: {
-        from: '"nest-modules" <modules@nestjs.com>',
-      },
-      template: {
-        dir: __dirname + '/mailer',
-        adapter: new HandlebarsAdapter(),
-        options: {
-          strict: true,
-        },
-      },
-    }),
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService],
