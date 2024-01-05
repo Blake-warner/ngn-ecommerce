@@ -8,6 +8,8 @@ import { UserModule } from '../users/user.module';
 import { VerifyEmailService } from './verify-email/verify-email.service';
 import { verifyEmailProviders } from './verify-email/verify-email.provider';
 import { MailService } from '../mailer/mailer.service';
+import { PassportModule } from '@nestjs/passport';
+import { LocalStrategy } from './strategies/local.strategy';
 
 @Module({
   controllers: [
@@ -16,14 +18,16 @@ import { MailService } from '../mailer/mailer.service';
   imports: [
     DatabaseModule, 
     SharedModule, 
-    UserModule
+    UserModule,
+    PassportModule,
   ],
   providers: [
     AuthService, 
     VerifyEmailService, 
     ...verifyEmailProviders,
     ConfigService,
-    MailService
+    MailService,
+    LocalStrategy,
   ],
 })
 export class AuthModule {}

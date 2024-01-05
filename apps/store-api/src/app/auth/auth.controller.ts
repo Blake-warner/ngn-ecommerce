@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, HttpCode, HttpStatus, Post, Request, UseGuards } from '@nestjs/common';
 import { SigninDto } from './dtos/signin.dto';
 import { AuthService } from './auth.service';
 import { UserService } from '../users/user.service';
@@ -9,6 +9,9 @@ import { VerifyEmailDto } from './dtos/verify-email.dto';
 import { EmailDto } from './dtos/email.dto';
 import { VerifyEmailService } from './verify-email/verify-email.service';
 import { MailService } from '../mailer/mailer.service';
+import { LocalAuthGuard } from './guards/local-auth.guard';
+import { User } from '../users/user.entity';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
 
 const rootPath = CONSTANTS.versions; // /v1
 
@@ -31,7 +34,8 @@ export class AuthController {
 
     @HttpCode(HttpStatus.CREATED)
     @Post('auth/signup')
-    async signup(@Body() body: SigninDto) {
+    async signup(@Body() body: SigninDto): Promise<User> {
+
         const {password, ...data} = body;
 
         if(body.password !== password) {
@@ -46,6 +50,7 @@ export class AuthController {
             ...data,
             password: hashed,
         });
+
     }
 
     @HttpCode(HttpStatus.CREATED)
@@ -53,22 +58,21 @@ export class AuthController {
     async createEmailVerifyCode(@Body() body: EmailDto) {
 
         const verificationCode = Math.floor(Math.random() * 90000) + 10000; // Generate email validation code
-        const payload = { email: body.email, code: verificationCode }; // completed payload to store as new email verifaction record
-  
-
-        const verifyEmail = await this.verifyEmailService.save(payload); // create new verify_email table record
-        
+        const payload = { email: body.email, code: verificationCode };
+        const verifyEmail = await this.verifyEmailService.save(payload);
         let html = '<h3>Please copy and paste the validation code below</h3>';
         html += '<p><b>Validation Code: </b>' + verificationCode + '</p>';
         html += 'once the code is pasted to your clipboard, navigate back to <a href="http://localhost:8000/">Click Here</a> to submit validation code.';
 
-        this.mailService.sendMail({ // send the verifaction email with validation code included
+        this.mailService.sendMail({
             to: body.email,
             from: this.configService.get<string>('MAIL_USER'),
-            subject: 'Verify your email', // Subject line
-            html: html, // HTML body content
-        })
+            subject: 'Verify your email',
+            html: html,
+        });
+
         return verifyEmail;
+
     }
 
     @Post('auth/email-verified')
@@ -76,7 +80,6 @@ export class AuthController {
 
         const email = body.email;
         const code = body.code;
-
         const emailToVerify = await this.verifyEmailService.findOne({where: {email, code}});
 
         if(!emailToVerify) {
@@ -85,6 +88,18 @@ export class AuthController {
 
         return emailToVerify;
 
+    }
+
+    @UseGuards(LocalAuthGuard)
+    @Post('auth/login')
+    async login(@Request() req) {
+        return this.authService.login(req.user);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Get('profile')
+    getProfile(@Request() req) {
+      return req.user;
     }
 
 }
