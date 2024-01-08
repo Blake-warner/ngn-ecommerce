@@ -2,7 +2,7 @@
   "name": "admin",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "prefix": "angular-nest-eccomerce-platform",
+  "prefix": "app",
   "sourceRoot": "apps/admin/src",
   "tags": [],
   "targets": {
@@ -17,8 +17,12 @@
         "tsConfig": "apps/admin/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": ["apps/admin/src/favicon.ico", "apps/admin/src/assets"],
-        "styles": ["apps/admin/src/styles.scss"],
-        "scripts": []
+        "styles": [
+          "node_modules/bootstrap/scss/bootstrap.scss",
+          "node_modules/bootstrap-icons/font/bootstrap-icons.css",
+          "apps/admin/src/assets/styles/styles.scss"
+        ],
+        "scripts": ["node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"]
       },
       "configurations": {
         "production": {

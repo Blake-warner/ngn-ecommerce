@@ -1,0 +1,12 @@
+<li>
+    <a routerLink="">Ecommerce</a>
+</li>
+<ul class="mb-4 position-relative">
+    @for (item of menu; track item.name) {
+        <li>
+            <a href="#" routerLink={{item.url}}>{{item.name}}</a>
+        </li>
+    } @empty {
+        <li></li>
+    }
+</ul>
