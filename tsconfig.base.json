@@ -14,7 +14,9 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@angular-nest-eccomerce-platform/mailer": ["mailer/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
