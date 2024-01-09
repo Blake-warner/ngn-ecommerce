@@ -1,0 +1,49 @@
+#form-auth {
+    max-width: 330px;
+    transition: opacity .4s;
+}
+
+#auth-form-container {
+    transition: transform 1s;
+}
+
+#form-email-code {
+    max-width: 330px;
+    transition: opacity .4s;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.form-floating > label {
+    padding: 13px 0.75rem;
+}
+
+.form-floating > .form-control {
+    height: 44px;
+    min-height: 44px;
+}
+
+.show-email-code {
+    transform: translateX(-25%);
+    #form-auth {
+        opacity: 0;
+        pointer-events: none;
+    }
+    #form-email-code {
+        opacity: 1;
+        pointer-events: auto;
+    }
+}
+
+
+.show-auth {
+    transform: translateX(25%);
+    #form-auth {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    #form-email-code {
+        opacity: 0;
+        pointer-events: none;
+    }
+}

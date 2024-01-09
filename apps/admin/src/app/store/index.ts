@@ -22,5 +22,5 @@ export const selectUser = (state: State) => state[fromAuth.authFeatureKey];
 
 export const selectAuth = createSelector(
     selectUser,
-    (state:fromAuth.State) => state.user
+    (state:fromAuth.State) => state.authUserData
 )

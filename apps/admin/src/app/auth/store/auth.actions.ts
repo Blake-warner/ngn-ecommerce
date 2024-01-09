@@ -1,10 +1,18 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
 import { Roles } from '../roles.enum';
+import { User } from '../user.model';
 
 export const AuthActions = createActionGroup({
   source: 'Auth',
   events: {
-    'Auth Success': props<{ user: 
+    'Auth Verify Email': props<{ 
+      tempUserData: User
+    }>(),
+    'Auth Email Verified': props<{ 
+      email: string,
+      code: number
+    }>(),
+    'Auth Success': props<{ authUserData: 
       {
         email: string,
         id: string,

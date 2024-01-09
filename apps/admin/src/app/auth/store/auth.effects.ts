@@ -73,7 +73,7 @@ export class AuthEffects {
                 last_name: action.last_name, 
                 role: action.role
             }).pipe(
-                map(user => AuthActions.AuthActions.authSuccess({user})),
+                map(user => AuthActions.AuthActions.authSuccess({authUserData: user})),
                 catchError(error => of(AuthActions.AuthActions.authFailure({error: error})))
             )}
         )
