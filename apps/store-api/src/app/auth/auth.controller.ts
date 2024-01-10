@@ -1,5 +1,6 @@
 import { BadRequestException, Body, Controller, Get, HttpCode, HttpStatus, Post, Query, Request, UseGuards } from '@nestjs/common';
 import { SigninDto } from './dtos/signin.dto';
+import { SignupDto } from './dtos/signup.dto';
 import { AuthService } from './auth.service';
 import { UserService } from '../users/user.service';
 import { ConfigService } from '@nestjs/config';
@@ -34,8 +35,8 @@ export class AuthController {
 
     @HttpCode(HttpStatus.CREATED)
     @Post('auth/signup')
-    async signup(@Body() body: SigninDto): Promise<User> {
-
+    async signup(@Body() body: SignupDto): Promise<User> {
+        console.log('incomding signup: ', body);
         const {password, ...data} = body;
 
         if(body.password !== password) {

@@ -8,10 +8,22 @@
 }
 
 #form-email-code {
-    max-width: 330px;
+    max-width: 400px;
     transition: opacity .4s;
     opacity: 0;
     pointer-events: none;
+    input {
+        height: 100%;
+    }
+    .wrapper {
+        display: flex;
+        justify-content: space-between;
+        padding: 30px 0;
+        .block {
+            width: 60px;
+            height: 70px;
+        }
+    }
 }
 
 .form-floating > label {
@@ -35,7 +47,6 @@
     }
 }
 
-
 .show-auth {
     transform: translateX(25%);
     #form-auth {
@@ -45,5 +56,16 @@
     #form-email-code {
         opacity: 0;
         pointer-events: none;
+    }
+}
+
+.hide {
+    #form-auth {
+        opacity: 0;
+        pointer-events: none;
+    }
+    #form-email-code {
+        opacity: 1;
+        pointer-events: auto;
     }
 }

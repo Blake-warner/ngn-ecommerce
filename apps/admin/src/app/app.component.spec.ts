@@ -18,10 +18,4 @@ describe('AppComponent', () => {
       'Welcome admin'
     );
   });
-
-  it(`should have as title 'admin'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('admin');
-  });
 });

@@ -1,26 +1,32 @@
 import { createReducer, on } from '@ngrx/store';
 import { AuthActions } from './auth.actions';
-import { User } from '../user.model';
+import * as User from '../user';
+import { Roles } from '../roles.enum';
 
 export const authFeatureKey = 'auth';
 
-export interface userData {
-  email: string;
-  id: string;
-  token: string;
-  tokenExp: Date;
-}
 export interface State {
-  authUserData: userData | null;
-  tempUserData: User | null;
-  authError: string | null;
+  authUserData: User.userData;
+  tempUserData: User.tempUserData;
+  authError: string;
   loading: boolean;
 }
 
 export const initialState: State = {
-  authUserData: null,
-  tempUserData: null,
-  authError: null,
+  authUserData: {
+    email: '',
+    id: '',
+    token: '',
+    tokenExp: new Date()
+  },
+  tempUserData: {
+    email: '',
+    password: '',
+    first_name: '',
+    last_name: '',
+    role: Roles.Customer
+  },
+  authError: '',
   loading: false
 };
 

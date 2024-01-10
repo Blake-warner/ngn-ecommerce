@@ -1,5 +1,20 @@
 import { Roles } from './roles.enum';
 
+export interface userData {
+    email: string;
+    id: string;
+    token: string;
+    tokenExp: Date;
+}
+  
+export interface tempUserData {
+  email: string;
+  password: string;
+  first_name: string;
+  last_name: string;
+  role: Roles.Customer
+}
+
 export class User {
     constructor(
         public email: string,

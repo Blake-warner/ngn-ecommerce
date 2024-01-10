@@ -1,7 +1,7 @@
 import {IsEnum, IsEmail, IsNotEmpty, IsString} from "class-validator";
 import { UserRoles } from "../../users/user-roles";
 
-export class SigninDto {
+export class SignupDto {
 
     @IsNotEmpty()
     @IsEmail()
