@@ -1,0 +1,11 @@
+@keyframes auth-form-out {
+    0% {opacity: 1; right: 0;}
+    50% {opacity: .5; right: 150px;}
+    100% {opacity: 0; right: 300px;}
+}
+
+@keyframes email-code-form-in {
+    0% {opacity: 0; left: 300px;}
+    50% {opacity: .5; left: 150px;}
+    100% {opacity: 1; left: 0;}
+}

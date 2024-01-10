@@ -1,5 +1,6 @@
-import { BadRequestException, Body, Controller, Get, HttpCode, HttpStatus, Post, Request, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, HttpCode, HttpStatus, Post, Query, Request, UseGuards } from '@nestjs/common';
 import { SigninDto } from './dtos/signin.dto';
+import { SignupDto } from './dtos/signup.dto';
 import { AuthService } from './auth.service';
 import { UserService } from '../users/user.service';
 import { ConfigService } from '@nestjs/config';
@@ -34,8 +35,8 @@ export class AuthController {
 
     @HttpCode(HttpStatus.CREATED)
     @Post('auth/signup')
-    async signup(@Body() body: SigninDto): Promise<User> {
-
+    async signup(@Body() body: SignupDto): Promise<User> {
+        console.log('incomding signup: ', body);
         const {password, ...data} = body;
 
         if(body.password !== password) {
@@ -72,6 +73,21 @@ export class AuthController {
         });
 
         return verifyEmail;
+
+    }
+
+    @Get('auth/email-verified')
+    async GetverifyEmailCode(@Query() params: {email,code}) {
+
+        const email = params.email;
+        const code = params.code;
+        const emailToVerify = await this.verifyEmailService.findOne({where: {email, code}});
+
+        if(!emailToVerify) {
+            throw new BadRequestException("email and code combination not found. Please submit a valid code");
+        }
+
+        return emailToVerify;
 
     }
 
