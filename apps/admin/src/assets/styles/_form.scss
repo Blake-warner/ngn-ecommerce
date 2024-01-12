@@ -5,6 +5,7 @@
 
 #auth-form-container {
     transition: transform 1s;
+    will-change: transform;
 }
 
 #form-email-code {

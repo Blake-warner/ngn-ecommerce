@@ -13,14 +13,17 @@ export const AuthActions = createActionGroup({
       code: number,
       tempUserData: User.tempUserData
     }>(),
-    'Auth Success': props<{ authUserData: 
+    'Auth Success': props<
       {
         email: string,
         id: string,
+        first_name: string,
+        last_name: string,
         token: string,
+        role: Roles,
         tokenExp: Date
       }
-    }>(),
+    >(),
     'Auth Signin Start': props<{ 
       username: string, 
       password: string 

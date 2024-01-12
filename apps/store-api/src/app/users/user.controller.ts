@@ -19,7 +19,6 @@ export class UserController {
     @Get('users')
     findAll() {
         const users = this.userService.find();
-        console.log("users from findall ", users);
         return users;
     }
 
@@ -41,7 +40,6 @@ export class UserController {
     @Delete('user/:id')
     remove(@Param('id') id: number) {
         const deletedUser = this.userService.delete(id);
-        console.log("delete users: ", deletedUser);
         return deletedUser;
     }
 }

@@ -16,8 +16,10 @@ export const initialState: State = {
   authUserData: {
     email: '',
     id: '',
+    first_name: '',
+    last_name: '',
+    role: Roles.Customer,
     token: '',
-    tokenExp: new Date()
   },
   tempUserData: {
     email: '',
@@ -36,7 +38,7 @@ export const reducer = createReducer(
   on(AuthActions.authEmailVerified, state => ({...state})),
   on(AuthActions.authSignupStart, state => ({...state, loading: true})),
   on(AuthActions.authSigninStart, state => ({...state, loading: true})),
-  on(AuthActions.authSuccess, (state, {authUserData}) => ({...state, loading: false, authUserData})),
+  on(AuthActions.authSuccess, (state, authUserData) => ({...state, loading: false, authUserData})),
   on(AuthActions.authFailure, state => ({...state, loading: false, authError: 'Error authenticating the user'})),
   on(AuthActions.authSignout, state => ({...state, loading: false, user: null})),
 );

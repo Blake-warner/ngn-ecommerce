@@ -11,8 +11,9 @@ import { EmailDto } from './dtos/email.dto';
 import { VerifyEmailService } from './verify-email/verify-email.service';
 import { MailService } from '../mailer/mailer.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
-import { User } from '../users/user.entity';
+//import { User } from '../users/user.entity';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { JwtService } from '@nestjs/jwt';
 
 const rootPath = CONSTANTS.versions; // /v1
 
@@ -24,7 +25,8 @@ export class AuthController {
         private userService: UserService,
         private verifyEmailService: VerifyEmailService,
         private readonly mailService: MailService,
-        private configService: ConfigService
+        private configService: ConfigService,
+        private jwtService: JwtService
     ){}
 
     @HttpCode(HttpStatus.OK)
@@ -35,7 +37,7 @@ export class AuthController {
 
     @HttpCode(HttpStatus.CREATED)
     @Post('auth/signup')
-    async signup(@Body() body: SignupDto): Promise<User> {
+    async signup(@Body() body: SignupDto): Promise<unknown> {
         console.log('incomding signup: ', body);
         const {password, ...data} = body;
 
@@ -47,11 +49,22 @@ export class AuthController {
 
         const hashed = await bcrypt.hash(body.password, 12);
 
-        return this.userService.save({
+        const newUser = this.userService.save({
             ...data,
             password: hashed,
         });
 
+        return newUser.then(async (user) => {
+            const payload = { sub: user.id, username: user.username };
+            return {
+                email: user.username,
+                id: user.id,
+                first_name: user.first_name,
+                last_name: user.last_name,
+                role: user.role,
+                token: await this.jwtService.signAsync(payload),
+              };   
+        });     
     }
 
     @HttpCode(HttpStatus.CREATED)
@@ -60,18 +73,22 @@ export class AuthController {
 
         const verificationCode = Math.floor(Math.random() * 90000) + 10000; // Generate email validation code
         const payload = { email: body.email, code: verificationCode };
-        const verifyEmail = await this.verifyEmailService.save(payload);
+
+        // html for email 
         let html = '<h3>Please copy and paste the validation code below</h3>';
         html += '<p><b>Validation Code: </b>' + verificationCode + '</p>';
         html += 'once the code is pasted to your clipboard, navigate back to <a href="http://localhost:8000/">Click Here</a> to submit validation code.';
 
+        // Send the email
         this.mailService.sendMail({
             to: body.email,
-            from: this.configService.get<string>('MAIL_USER'),
+            from: this.configService.get<string>('MAIL_USER'), // Email is set as environment variable
             subject: 'Verify your email',
             html: html,
         });
 
+        // Save the email and verification code
+        const verifyEmail = await this.verifyEmailService.save(payload);
         return verifyEmail;
 
     }
