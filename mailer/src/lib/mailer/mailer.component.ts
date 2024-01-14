@@ -8,4 +8,6 @@ import { CommonModule } from '@angular/common';
   templateUrl: './mailer.component.html',
   styleUrl: './mailer.component.css',
 })
-export class MailerComponent {}
+export class MailerComponent {
+  
+}
