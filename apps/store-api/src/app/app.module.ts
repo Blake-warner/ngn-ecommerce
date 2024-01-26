@@ -11,6 +11,7 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './users/user.module';
 import { ConfigModule } from '@nestjs/config';
 import { MailModule } from './mailer/mailer.module';
+import { IamModule } from './iam/iam.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { MailModule } from './mailer/mailer.module';
     AuthModule,
     UserModule,
     MailModule,
+    IamModule,
   ],
   controllers: [AppController],
   providers: [AppService],

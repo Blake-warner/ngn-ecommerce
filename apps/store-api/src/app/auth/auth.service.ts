@@ -16,7 +16,7 @@ export class AuthService{
 
   async signIn(username, password) {
 
-    const user = await this.userService.findOne({where: {username}}) as User;
+    const user = await this.userService.findOne({where: {username}});
 
     if (!user) {
       throw new NotFoundException("User not found");

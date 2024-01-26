@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn} from 'typeorm';
-import { UserRoles } from './user-roles';
+import { Role } from '../iam/authentication/enums/role.enum';
 
 @Entity()
 export class User {
@@ -22,9 +22,9 @@ export class User {
 
     @Column({
         type: "enum",
-        enum: UserRoles,
-        default: UserRoles.CUSTOMER
+        enum: Role,
+        default: Role.CUSTOMER
     })
-    role: UserRoles
+    role: Role;
     
 }

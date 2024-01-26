@@ -7,7 +7,7 @@ import { AuthActions } from '../store/auth.actions';
 import { AuthService } from '../auth.service';
 import * as CONSTANTS from '../../shared/constants';
 import * as User from '../user';
-import { Roles } from '../roles.enum';
+import { Roles } from '../enums/roles.enum';
 import { ActivatedRoute } from '@angular/router';
 
 type Val = 1 | 2;

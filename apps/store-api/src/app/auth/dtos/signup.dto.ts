@@ -1,5 +1,5 @@
 import {IsEnum, IsEmail, IsNotEmpty, IsString} from "class-validator";
-import { UserRoles } from "../../users/user-roles";
+import { Roles } from "../../users/roles";
 
 export class SignupDto {
 
@@ -17,6 +17,6 @@ export class SignupDto {
     @IsString()
     last_name?: string;
 
-    @IsEnum(UserRoles)
-    role?: UserRoles;
+    @IsEnum(Roles)
+    role?: Roles;
 }

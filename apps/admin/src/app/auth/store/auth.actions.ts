@@ -1,5 +1,5 @@
 import { createActionGroup, emptyProps, props } from '@ngrx/store';
-import { Roles } from '../roles.enum';
+import { Roles } from '../enums/roles.enum';
 import * as User from '../user';
 
 export const AuthActions = createActionGroup({

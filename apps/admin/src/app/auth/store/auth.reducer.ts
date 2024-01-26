@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 import { AuthActions } from './auth.actions';
 import * as User from '../user';
-import { Roles } from '../roles.enum';
+import { Roles } from '../enums/roles.enum';
 
 export const authFeatureKey = 'auth';
 

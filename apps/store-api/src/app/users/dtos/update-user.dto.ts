@@ -1,5 +1,5 @@
 import { IsOptional, IsString, IsEnum } from "class-validator";
-import { UserRoles } from "../user-roles";
+import { Roles } from "../roles";
 
 export class UpdateUserDto {
 
@@ -12,6 +12,6 @@ export class UpdateUserDto {
     last_name?: string;
 
     @IsOptional()
-    @IsEnum(UserRoles)
-    user_role?: UserRoles;
+    @IsEnum(Roles)
+    user_role?: Roles;
 }
