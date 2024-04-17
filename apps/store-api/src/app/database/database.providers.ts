@@ -4,7 +4,11 @@ import { Category } from '../categories/category.entity';
 import { Attribute } from '../attributes/attribute.entity';
 import { User } from '../users/user.entity';
 import { VerifyEmail } from '../auth/verify-email/verify-email.entity';
+import { ConfigService } from '@nestjs/config';
 
+const configService = new ConfigService();
+const type = configService.get<string>('db.type');
+console.log('database type: ', type);
 export const databaseProviders = [
   {
     provide: 'DATA_SOURCE',

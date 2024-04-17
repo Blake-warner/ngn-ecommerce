@@ -1,9 +1,10 @@
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
-import { Inject } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { Cache } from 'cache-manager';
 
 export class InvalidatedRefreshTokenError extends Error {}
 
+@Injectable()
 export class RefreshTokenIdsStorage {
 
     constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}

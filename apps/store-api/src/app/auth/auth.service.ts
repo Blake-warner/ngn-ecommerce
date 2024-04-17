@@ -9,8 +9,8 @@ import { MailerService } from "@nestjs-modules/mailer";
 @Injectable()
 export class AuthService{
   constructor(
-    private userService: UserService,
-    private jwtService: JwtService,
+    private readonly userService: UserService,
+    private readonly jwtService: JwtService,
     private readonly mailerService: MailerService
   ) {}
 
@@ -36,7 +36,7 @@ export class AuthService{
 
   async validateUser(username: string, pass: string): Promise<unknown> {
 
-    const user = await this.userService.findOne({where: {username}}) as User;
+    const user = await this.userService.findOne({where: {username}});
     const comparedPass = bcrypt.compare(user.password, pass);
     if (user && comparedPass) {
       const {password, ...result} = user;

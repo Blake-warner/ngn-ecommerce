@@ -12,7 +12,8 @@ const rootPath = CONSTANTS.versions; // /v1
 @Controller(rootPath)
 export class ProductController {
     constructor(
-        @Inject(CACHE_MANAGER) private cacheManager: Cache,
+        @Inject(CACHE_MANAGER)
+        private cacheManager: Cache,
         private productService: ProductService,
         private eventEmitter: EventEmitter2
         ){}
