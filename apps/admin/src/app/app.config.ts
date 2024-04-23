@@ -7,7 +7,8 @@ import { provideEffects } from '@ngrx/effects';
 import { AuthEffects } from './auth/store/auth.effects';
 import { reducers } from './store';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 export const appConfig: ApplicationConfig = {
-  providers: [ importProvidersFrom(HttpClientModule, StoreDevtoolsModule.instrument()), provideEffects([AuthEffects]), provideStore(reducers), provideRouter(appRoutes)],
+  providers: [ importProvidersFrom(HttpClientModule, StoreDevtoolsModule.instrument(), FormsModule), provideEffects([AuthEffects]), provideStore(reducers), provideRouter(appRoutes)],
 };

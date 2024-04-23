@@ -44,6 +44,7 @@ export class SignupComponent implements OnInit {
     this.showEmailCodeForm = true;
     this.val = 3;
     const payload: User.tempUserData = {...form.value, role: Roles.Customer};
+    console.log(payload);
     this.store.dispatch(AuthActions.authVerifyEmail({tempUserData: payload}));
   }
 

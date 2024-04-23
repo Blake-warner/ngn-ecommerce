@@ -4,15 +4,15 @@ import { SignupDto } from './dtos/signup.dto';
 import { AuthService } from './auth.service';
 import { UserService } from '../users/user.service';
 import { ConfigService } from '@nestjs/config';
-import * as bcrypt from "bcryptjs";
 import * as CONSTANTS from "../shared/constants";
 import { VerifyEmailDto } from './dtos/verify-email.dto';
 import { EmailDto } from './dtos/email.dto';
 import { VerifyEmailService } from './verify-email/verify-email.service';
 import { MailService } from '../mailer/mailer.service';
 import { LocalAuthGuard } from './guards/local-auth.guard';
-import { User } from '../users/user.entity';
+//import { User } from '../users/user.entity';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { JwtService } from '@nestjs/jwt';
 
 const rootPath = CONSTANTS.versions; // /v1
 
@@ -24,34 +24,24 @@ export class AuthController {
         private userService: UserService,
         private verifyEmailService: VerifyEmailService,
         private readonly mailService: MailService,
-        private configService: ConfigService
+        private configService: ConfigService,
+        private jwtService: JwtService
     ){}
 
     @HttpCode(HttpStatus.OK)
     @Post('auth/signin')
     async signin(@Body() body: SigninDto) {
-        return this.authService.signIn(body.username, body.password);
+        const signInResponse = this.authService.signIn(body.email, body.password);
+        console.log(signInResponse);
+        return signInResponse;
     }
 
     @HttpCode(HttpStatus.CREATED)
     @Post('auth/signup')
-    async signup(@Body() body: SignupDto): Promise<User> {
-        console.log('incomding signup: ', body);
-        const {password, ...data} = body;
-
-        if(body.password !== password) {
-            throw new BadRequestException(
-                "Password does not match incoming password from request body!"
-            );
-        }
-
-        const hashed = await bcrypt.hash(body.password, 12);
-
-        return this.userService.save({
-            ...data,
-            password: hashed,
-        });
-
+    async signup(@Body() body: SignupDto): Promise<unknown> {
+        const signUpResponse = this.authService.signUp(body);
+        console.log(signUpResponse);
+        return signUpResponse;
     }
 
     @HttpCode(HttpStatus.CREATED)
@@ -60,24 +50,28 @@ export class AuthController {
 
         const verificationCode = Math.floor(Math.random() * 90000) + 10000; // Generate email validation code
         const payload = { email: body.email, code: verificationCode };
-        const verifyEmail = await this.verifyEmailService.save(payload);
+
+        // html for email 
         let html = '<h3>Please copy and paste the validation code below</h3>';
         html += '<p><b>Validation Code: </b>' + verificationCode + '</p>';
         html += 'once the code is pasted to your clipboard, navigate back to <a href="http://localhost:8000/">Click Here</a> to submit validation code.';
 
+        // Send the email
         this.mailService.sendMail({
             to: body.email,
-            from: this.configService.get<string>('MAIL_USER'),
+            from: this.configService.get<string>('MAIL_USER'), // Email is set as environment variable
             subject: 'Verify your email',
             html: html,
         });
 
+        // Save the email and verification code
+        const verifyEmail = await this.verifyEmailService.save(payload);
         return verifyEmail;
 
     }
 
     @Get('auth/email-verified')
-    async GetverifyEmailCode(@Query() params: {email,code}) {
+    async GetverifyEmailCode(@Query() params: {email, code}) {
 
         const email = params.email;
         const code = params.code;

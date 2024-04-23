@@ -4,7 +4,7 @@ export class SigninDto {
 
     @IsNotEmpty()
     @IsEmail()
-    username: string;
+    email: string;
 
     @IsNotEmpty()
     @IsString()

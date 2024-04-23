@@ -4,7 +4,7 @@ import { SigninComponent } from './auth/signin/signin.component';
 import { SignupComponent } from './auth/signup/signup.component';
 
 export const appRoutes: Route[] = [
-    { path: '', component: HomeComponent, canActivate: [() => false]},
+    { path: '', component: HomeComponent},
     {
         path: '',
         loadChildren: () =>

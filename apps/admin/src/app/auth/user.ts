@@ -12,24 +12,17 @@ export interface tempUserData {
   password: string;
   first_name: string;
   last_name: string;
-  role: Roles.Customer
+  role: Roles;
 }
 
 export class User {
     constructor(
         public email: string,
         public id: string,
-        public firstname: string,
-        public lastname: string,
+        public first_name: string,
+        public last_name: string,
         public role: Roles,
-        private _token: string,
-        private _tokenExpirationDate: Date
+        readonly _tokenExp: Date,
+        readonly token: string,
       ) {}
-    
-      get token() {
-        if (!this._tokenExpirationDate || new Date() > this._tokenExpirationDate) {
-          return null;
-        }
-        return this._token;
-      }
 }
