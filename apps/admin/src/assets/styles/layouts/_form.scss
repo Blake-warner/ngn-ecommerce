@@ -5,6 +5,10 @@
 
 #auth-form-container {
     transition: transform 1s;
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
 }
 
 #form-email-code {

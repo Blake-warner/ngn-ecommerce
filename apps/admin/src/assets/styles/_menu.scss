@@ -1,4 +1,10 @@
 #main-menu {
     height: 100vh;
     background: #1b1e2e;
+    a {
+        color: #fff;
+        text-decoration: none;
+        margin-bottom: 6px;
+        display: block;
+    }
 }

@@ -22,4 +22,8 @@ export class RepositoryService {
     async delete(id: number) {
         return this.respository.delete(id);
     }
+
+    async findOneByOrFail(id: number) {
+        return this.respository.findOneByOrFail({where:{id}});
+    }
 }

@@ -13,6 +13,7 @@ import { LocalAuthGuard } from './guards/local-auth.guard';
 //import { User } from '../users/user.entity';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { JwtService } from '@nestjs/jwt';
+import { RefreshTokenDto } from './dtos/refresh-token.dto';
 
 const rootPath = CONSTANTS.versions; // /v1
 
@@ -110,6 +111,12 @@ export class AuthController {
     @Get('profile')
     getProfile(@Request() req) {
       return req.user;
+    }
+
+    @HttpCode(HttpStatus.OK)
+    @Post('refresh-token')
+    refreshTokens(@Body() refreshTokenDto: RefreshTokenDto) {
+        return this.authService.refreshToken(refreshTokenDto);
     }
 
 }

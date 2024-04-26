@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthController } from './auth.controller';
 import { DatabaseModule } from '../database/database.module';
 import { SharedModule } from '../shared/shared.module';
@@ -10,6 +10,9 @@ import { verifyEmailProviders } from './verify-email/verify-email.provider';
 import { MailService } from '../mailer/mailer.service';
 import { PassportModule } from '@nestjs/passport';
 import { LocalStrategy } from './strategies/local.strategy';
+import { HashingService } from './hashing/hashing.service';
+import { BcryptService } from './hashing/bcrypt.service';
+import jwtConfig from './config/jwt.config';
 
 @Module({
   controllers: [
@@ -20,6 +23,7 @@ import { LocalStrategy } from './strategies/local.strategy';
     SharedModule, 
     UserModule,
     PassportModule,
+    ConfigModule.forFeature(jwtConfig),
   ],
   providers: [
     AuthService, 
@@ -28,6 +32,10 @@ import { LocalStrategy } from './strategies/local.strategy';
     ConfigService,
     MailService,
     LocalStrategy,
+    {
+      provide: HashingService,
+      useClass: BcryptService,
+    }
   ],
 })
 export class AuthModule {}
