@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -51,12 +51,29 @@ export class SignupComponent implements OnInit {
   onVerifyEmailSubmit(form: NgForm) {
     
     this.store.select(appStore.selectTempUser).subscribe((tempUserData) => {
-      const stringifiedCode = ''+form.value.num1+form.value.num2+form.value.num3+form.value.num4+form.value.num5;
+      const stringifiedCode = ''+form.value._1 +form.value._2+form.value._3+form.value._4+form.value._5;
       const code = parseInt(stringifiedCode);
       console.log(code, typeof code);
       const payload = {email: tempUserData.email, code, tempUserData};
       console.log(payload);
       this.store.dispatch(AuthActions.authEmailVerified(payload));
     })
+  }
+
+  validateDigits(event: any) {
+    console.log(event);
+    const inputDigit = Number(event.key);
+    const chars = event.target.name.split("");
+    console.log(typeof chars);
+    const digit = chars.splice(1,1);
+    const digitNumber = Number(digit[0]) + 1;
+    const nextInputName = '_' + digitNumber;
+    console.log(typeof nextInputName, nextInputName);
+    if (inputDigit >= 0 && inputDigit <= 9) {
+      document.getElementsByName(nextInputName)[0].focus();
+    } else if ((event.key === 'Backspace' || event.key === 'Delete') && Number(digit) > 1) {
+      const priorInputName = '_' + (Number(digit) - 1);
+      document.getElementsByName(priorInputName)[0].focus();
+    }
   }
 }

@@ -6,7 +6,7 @@
 #auth-form-container {
     transition: transform 1s;
     width: 100%;
-    max-width: 330px;
+    //max-width: 330px;
     padding: 15px;
     margin: auto;
 }
@@ -60,16 +60,5 @@
     #form-email-code {
         opacity: 0;
         pointer-events: none;
-    }
-}
-
-.hide {
-    #form-auth {
-        opacity: 0;
-        pointer-events: none;
-    }
-    #form-email-code {
-        opacity: 1;
-        pointer-events: auto;
     }
 }

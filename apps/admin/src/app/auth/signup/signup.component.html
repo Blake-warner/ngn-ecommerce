@@ -27,23 +27,23 @@
             <button class="btn btn-primary w-100 py-2" type="submit">Sign up</button>
           </form>
     </main>
-    <main id="form-email-code" class="w-100 m-auto hide">
+    <main id="form-email-code" class="w-100 m-auto">
         <form #vef="ngForm" class="verify-email-form" (ngSubmit)="onVerifyEmailSubmit(vef)">
             <div class="wrapper">
                 <div class="block">
-                    <input #digitOne class="form-control digit-one" ngModel type="number" name="num1" min="1" max="9" autofocus (keyup)="digitTwo.focus()">
+                    <input #1 class="form-control digit-one" ngModel type="text" name="_1" min="0" maxLength="1" max="9" value="" autofocus (keyup)="validateDigits($event)">
                 </div>
                 <div class="block">
-                    <input #digitTwo class="form-control digit-two" ngModel type="number" name="num2" min="1" max="9" (keyup)="digitThree.focus()">
+                    <input #2 class="form-control digit-two" ngModel type="text" maxLength="1" name="_2" min="0" max="9" value="" (keyup)="validateDigits($event)">
                 </div>
                 <div class="block">
-                    <input #digitThree class="form-control digit-three" ngModel type="number" name="num3" min="1" max="9" (keyup)="digitFour.focus()">
+                    <input #3 class="form-control digit-three" ngModel type="text" maxLength="1" name="_3" min="0" max="9" value="" (keyup)="validateDigits($event)">
                 </div>
                 <div class="block">
-                    <input #digitFour class="form-control digit-four" ngModel type="number" name="num4" min="1" max="9" (keyup)="digitFive.focus()">
+                    <input #4 class="form-control digit-four" ngModel type="text" maxLength="1" name="_4" min="0" max="9" value="" (keyup)="validateDigits($event)">
                 </div>
                 <div class="block">
-                    <input #digitFive class="form-control digit-four" ngModel type="number" name="num5" min="1" max="9">
+                    <input #5 class="form-control digit-five" ngModel type="text" maxLength="1" name="_5" min="0" max="9" value="">
                 </div>
             </div>
             <button class="w-100 btn btn-lg btn-primary" type="submit">Verify Email</button>

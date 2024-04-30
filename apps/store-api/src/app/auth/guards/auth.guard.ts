@@ -1,38 +1,29 @@
 import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { Observable } from 'rxjs';
-import { jwtConstants } from '../../shared/constants';
 import { Request } from 'express';
+import { Reflector } from '@nestjs/core';
+import { AuthType } from '../enums/auth-type.enum';
+import { AUTH_TYPE_KEY } from '../decorators/auth.decorator';
+import { AccessTokenGuard } from './access-token.guard';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
 
-  constructor(private jwtService: JwtService) {}
-
+  constructor(
+    private jwtService: JwtService,
+    private reflector: Reflector,
+    private readonly accessTokenGuard: AccessTokenGuard,
+  ) {}
+  const authTypeGuardMap: Record<AuthType, CanActivate | CanActivate[]> = {
+    [AuthType.Bearer]: this.accessTokenGuard,
+  }
   canActivate(
     context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
-    const request = context.switchToHttp().getRequest();
-    const token = this.extractToken(request);
-    if(!token) {
-      throw new UnauthorizedException();
-    }
-    try {
-        const payload = this.jwtService.verifyAsync(token, {
-          secret: jwtConstants.secret
-        })
-        request['user'] = payload;
-    } catch {
-        throw new UnauthorizedException();
-    }
-    return true;
-  }
-
-  extractToken(request: Request): string | undefined {
-
-    const [type, token] = request.headers.authorization?.split(' ') ?? [];
-    return type === 'Bearer' ? token : undefined;
-
+  ): Promise<boolean> {
+    const authTypes = this.reflector.getAllAndOverride<AuthType[]>(
+      AUTH_TYPE_KEY,
+      [context.getHandler(), context.getClass()]
+    );
   }
 
 }

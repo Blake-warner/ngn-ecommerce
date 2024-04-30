@@ -1,6 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
-@import 'reset';
-@import 'layouts/form';
-@import 'menu';
-@import 'grid';
+
+@import 'layouts/forms';
+@import 'layouts/menu';
+@import 'layouts/grid';
+@import 'components/form';
 @import 'base/typography';
+@import 'base/reset';
