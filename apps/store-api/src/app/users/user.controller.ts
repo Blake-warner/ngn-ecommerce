@@ -5,9 +5,13 @@ import { Cache } from "cache-manager";
 import * as CONSTANTS from '../shared/constants';
 import { CACHE_MANAGER} from '@nestjs/cache-manager';
 import { EventEmitter2 } from "@nestjs/event-emitter";
+import { Auth } from '../auth/decorators/auth.decorator';
+import { AuthType } from '../auth/enums/auth-type.enum';
+import { ActiveUser } from '../auth/decorators/active-user.decorator';
+import { ActiveUserData } from '../auth/interfaces/active-user.interface';
 
 const rootPath = CONSTANTS.versions; // /v1
-
+@Auth(AuthType.Bearer)
 @Controller(rootPath)
 export class UserController {
     constructor(
@@ -23,18 +27,25 @@ export class UserController {
         return users;
     }
 
+    @Get('validate-user')
+    validateUser(@ActiveUser() activeUser: ActiveUserData, @Body() body: any) {
+        console.log('validated user: ', activeUser);
+        console.log(body);
+        return activeUser;
+    }
+
     @HttpCode(HttpStatus.OK)
     @Get('user/:id')
     findOne(@Param('id') id: string) {
-        const product = this.userService.findOne({where: {id}});
-        return product;
+        const user = this.userService.findOne({where: {id}});
+        return user;
     }
 
     @HttpCode(HttpStatus.OK)
     @Put('user/:id')
     update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
-        const product =  this.userService.update(id, updateUserDto);
-        return product;
+        const user =  this.userService.update(id, updateUserDto);
+        return user;
     }
 
     @HttpCode(HttpStatus.NO_CONTENT)

@@ -14,16 +14,31 @@ export class AuthGuard implements CanActivate {
     private reflector: Reflector,
     private readonly accessTokenGuard: AccessTokenGuard,
   ) {}
-  const authTypeGuardMap: Record<AuthType, CanActivate | CanActivate[]> = {
+
+  private static readonly authGuardDefault = AuthType.None;
+  authTypeGuardMap: Record<AuthType, CanActivate | CanActivate[]> = {
     [AuthType.Bearer]: this.accessTokenGuard,
+    [AuthType.None]: { canActivate: () => true },
   }
-  canActivate(
+  async canActivate(
     context: ExecutionContext,
   ): Promise<boolean> {
     const authTypes = this.reflector.getAllAndOverride<AuthType[]>(
       AUTH_TYPE_KEY,
-      [context.getHandler(), context.getClass()]
-    );
+      [context.getHandler(), context.getClass()] 
+    ) ??[ AuthGuard.authGuardDefault];
+    let error = new UnauthorizedException();
+    const guards = authTypes.map((type) => this.authTypeGuardMap[type]).flat();
+    for(const guard of guards) {
+      const guardResult = Promise.resolve(guard.canActivate(context))
+        .catch((err) => {
+          error = err;
+        });
+      if(guardResult) {
+        return true;
+      }
+    }
+    throw error;
   }
 
 }

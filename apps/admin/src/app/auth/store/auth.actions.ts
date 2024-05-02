@@ -15,18 +15,15 @@ export const AuthActions = createActionGroup({
       tempUserData: User.tempUserData
     }>(),
     'Auth Success': props<{
-       email: string,
-       id: string,
-       first_name: string,
-       last_name: string,
-       role: Roles,
-       token: string,
-       _tokenExp: Date,
+       accessToken: string,
+       refreshToken: string,
+       user: User.User,
     }>(),
     'Auth Signin Start': props<{ 
       email: string, 
       password: string 
     }>(),
+    'Auth Auto Signin': emptyProps(),
     'Auth Signup Start': props<{ 
       email: string, 
       password: string,

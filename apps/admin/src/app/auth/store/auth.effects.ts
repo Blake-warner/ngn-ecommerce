@@ -51,8 +51,19 @@ export class AuthEffects {
     authSignup$ = createEffect(() => this.actions$.pipe(
             ofType(AuthActions.authSignupStart),
             exhaustMap((action) => {
-                return this.authService.signup(action).pipe(
-                    map(() =>  AuthActions.authSignedUp()),
+                console.log('authSignupStart: ', action);
+                const payload = {
+                    email: action.email,
+                    password: action.password,
+                    first_name: action.first_name,
+                    last_name: action.last_name,
+                    role: action.role,
+                }
+                return this.authService.signup(payload).pipe(
+                    map(() =>  {
+                        console.log('signed up called!');
+                        return AuthActions.authSignedUp();
+                    }),
                     catchError(error => this.authService.handleError(AuthActions.authFailure({error: error})))
                 )
             })
@@ -67,11 +78,8 @@ export class AuthEffects {
                 password: action.password,
             };
             return this.authService.signin(payload).pipe(
-                tap(() => {
-                    
-                }),
                 map((userData) => {
-                    console.log('USERDATA: ', userData)
+                    console.log('USERDATA: ', userData);
                     return AuthActions.authSuccess(userData);
                 }),
                 catchError(error => this.authService.handleError(AuthActions.authFailure({error: error})))
@@ -79,7 +87,7 @@ export class AuthEffects {
         })
     ));
 
-    signUpSuccess = createEffect(() => this.actions$.pipe(
+    authSignupSuccess$ = createEffect(() => this.actions$.pipe(
             ofType(AuthActions.authSignedUp),
             exhaustMap(() => {
                 this.router.navigate(['/signin']);
@@ -92,13 +100,44 @@ export class AuthEffects {
     authSuccess$ = createEffect(() => this.actions$.pipe(
         ofType(AuthActions.authSuccess),
         exhaustMap((action) => {
-            console.log('action: ', action);
-           this.authService.handleAuthentication(action);
-           this.router.navigate(['/dashboard']);
+           this.authService.handleAuthentication(action)
            return 'Authentication Success!';
         })
     ),
     { dispatch: false }
-    )
+    );
+
+    authAutoSignin$ = createEffect(() => this.actions$.pipe(
+        ofType(AuthActions.authAutoSignin),
+        map(() => {
+            const user = JSON.parse(localStorage.getItem('user') as string);
+            const tokens = JSON.parse(localStorage.getItem('authTokens') as string);
+            const payload = {
+                user,
+                accessToken: tokens.accessToken,
+                refreshToken: tokens.refreshToken,
+            }
+            const isUserAuth = !Object.values(payload).every(prop => prop === null);
+            if(isUserAuth) {
+                return AuthActions.authSuccess(payload)
+            }
+            return AuthActions.authFailure({ error: 'Auto Login Failed due to missing authentication data' });
+        }),
+        catchError(errorRes => {
+            return this.authService.handleError(errorRes);
+        })
+    ));
+
+    authSignout$ = createEffect(() => this.actions$.pipe(
+        ofType(AuthActions.authSignout),
+        tap(() => {
+            localStorage.removeItem('user');
+            localStorage.removeItem('authTokens');
+            this.router.navigate(['/signin']);
+        })
+    ),
+    { dispatch: false }
+    );
+
 }
 

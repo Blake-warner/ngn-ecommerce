@@ -22,7 +22,7 @@ export class User {
         public first_name: string,
         public last_name: string,
         public role: Roles,
-        readonly _tokenExp: Date,
-        readonly token: string,
+        //readonly _tokenExp: Date,
+        //readonly token: string,
       ) {}
 }

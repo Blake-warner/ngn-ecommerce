@@ -18,14 +18,26 @@ export const reducers: ActionReducerMap<State> = {
 
 export const metaReducers: MetaReducer<State>[] = isDevMode() ? [] : [];
 
-export const selectUser = (state: State) => state[fromAuth.authFeatureKey];
+export const selectAuth = (state: State) => state[fromAuth.authFeatureKey];
 
-export const selectAuth = createSelector(
-    selectUser,
-    (state:fromAuth.State) => state.authUserData
+export const selectUser = createSelector(
+    selectAuth,
+    (state:fromAuth.State) => state.user
 );
 
 export const selectTempUser = createSelector(
-    selectUser,
+    selectAuth,
     (state:fromAuth.State) => state.tempUserData
-)
+);
+
+export const selectAccessToken = createSelector(
+    selectAuth,
+    (state:fromAuth.State) => state.accessToken
+);
+
+export const isLoggedIn = createSelector(
+    selectAuth,
+    (state:fromAuth.State) => state.isLoggedIn
+);
+
+

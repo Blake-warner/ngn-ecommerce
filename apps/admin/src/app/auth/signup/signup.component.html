@@ -1,4 +1,4 @@
-<div id="auth-form-container" class="d-flex align-items-center py-4 full-screen" [ngClass]="classMap[val]">
+<div class="auth-form-container d-flex align-items-center py-4 full-screen" [ngClass]="classMap[val]">
     <main id="form-auth" class="w-100 m-auto">
         <form (ngSubmit)="onSubmit(f)" #f="ngForm">
             <h1 class="h3 mb-2 fw-normal">Please sign up</h1>
@@ -43,7 +43,7 @@
                     <input #4 class="form-control digit-four" ngModel type="text" maxLength="1" name="_4" min="0" max="9" value="" (keyup)="validateDigits($event)">
                 </div>
                 <div class="block">
-                    <input #5 class="form-control digit-five" ngModel type="text" maxLength="1" name="_5" min="0" max="9" value="">
+                    <input #5 class="form-control digit-five" ngModel type="text" maxLength="1" name="_5" min="0" max="9" value="" (keyup)="validateDigits($event)">
                 </div>
             </div>
             <button class="w-100 btn btn-lg btn-primary" type="submit">Verify Email</button>

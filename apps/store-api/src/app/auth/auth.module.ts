@@ -13,6 +13,9 @@ import { LocalStrategy } from './strategies/local.strategy';
 import { HashingService } from './hashing/hashing.service';
 import { BcryptService } from './hashing/bcrypt.service';
 import jwtConfig from './config/jwt.config';
+import { AuthGuard } from './guards/auth.guard';
+import { APP_GUARD } from '@nestjs/core';
+import { AccessTokenGuard } from './guards/access-token.guard';
 
 @Module({
   controllers: [
@@ -35,7 +38,12 @@ import jwtConfig from './config/jwt.config';
     {
       provide: HashingService,
       useClass: BcryptService,
-    }
+    },
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+    AccessTokenGuard,
   ],
 })
 export class AuthModule {}

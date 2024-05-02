@@ -6,7 +6,13 @@ import { Store } from '@ngrx/store';
 import * as appStore from '../store';
 import { AuthActions } from './store/auth.actions';
 import { of } from 'rxjs';
+import { Router } from '@angular/router';
 
+interface authUserPayload {
+  user: User.User;
+  accessToken: string;
+  refreshToken: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -15,18 +21,21 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private store: Store<appStore.State>
+    private store: Store<appStore.State>,
+    private router: Router
   ) { }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   accessTokenExpTimer: any;
 
-  signup(data: User.tempUserData) {;
+  signup(data: User.tempUserData) {
+    console.log(data);
+    console.log(CONSTANTS.SIGNUP_ENDPOINT);
     return this.http.post<User.userData>(CONSTANTS.SIGNUP_ENDPOINT, data);
   }
 
   signin(data: {email: string, password: string}) {
-    return this.http.post<User.User>(CONSTANTS.SIGNIN_ENDPOINT, data);
+    return this.http.post<authUserPayload>(CONSTANTS.SIGNIN_ENDPOINT, data);
   }
 
   verifyEmail(email: string) {
@@ -35,6 +44,7 @@ export class AuthService {
   }
 
   emailVerified(email: string, code: number) {
+    console.log(CONSTANTS.EMAIL_VERIFIED_ENDPOINT+'?email='+email+'&code='+code);
     return this.http.get(CONSTANTS.EMAIL_VERIFIED_ENDPOINT+'?email='+email+'&code='+code);
   }
 
@@ -51,12 +61,14 @@ export class AuthService {
     }
   }
 
-  handleAuthentication(data: User.User) {
-    console.log('Toekn exp value: ', data._tokenExp);
-    const expDate = new Date(new Date().getTime() + +data._tokenExp * 1000);
-    console.log('expDate: ', expDate);
-    const user = new User.User(data.email, data.id, data.first_name, data.last_name, data.role, data._tokenExp, data.token);
-    localStorage.setItem('user', JSON.stringify(user));
+  handleAuthentication(payload: authUserPayload) {
+    const authTokens = {
+      accessToken: payload.accessToken,
+      refreshToken: payload.refreshToken,
+    };
+    localStorage.setItem('user', JSON.stringify(payload.user));
+    localStorage.setItem('authTokens', JSON.stringify(authTokens));
+    this.router.navigate(['/dashboard']);
   }
 
   handleError(error: any) {

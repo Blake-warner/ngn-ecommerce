@@ -11,7 +11,7 @@ import { OrdersComponent } from "./ecommerce/orders/orders.component";
 import { CustomersComponent } from "./ecommerce/customers/customers.component";
 
 export const DASHBOARD_ROUTES: Routes = [
-    { path: '', component: DashboardComponent, providers: [], children: [
+    { path: '', component: DashboardComponent, children: [
         { path: 'products', component: ProductsComponent},
         { path: 'products/new', component: NewProductComponent},
         { path: 'products/categories', component: ProductCategoriesComponent},

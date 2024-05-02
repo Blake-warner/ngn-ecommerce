@@ -3,12 +3,18 @@
     transition: opacity .4s;
 }
 
-#auth-form-container {
+#signin {
+    max-width: 330px;
+    @include padding(15px);
+    @include margin(auto);
+}
+
+.auth-form-container {
     transition: transform 1s;
+    @include padding(15px);
     width: 100%;
-    //max-width: 330px;
-    padding: 15px;
     margin: auto;
+    transform: translateX(25%);
 }
 
 #form-email-code {
@@ -39,7 +45,7 @@
     min-height: 44px;
 }
 
-.show-email-code {
+.auth-form-container.show-email-code {
     transform: translateX(-25%);
     #form-auth {
         opacity: 0;
@@ -51,8 +57,7 @@
     }
 }
 
-.show-auth {
-    transform: translateX(25%);
+.auth-form-container.show-auth {
     #form-auth {
         opacity: 1;
         pointer-events: auto;

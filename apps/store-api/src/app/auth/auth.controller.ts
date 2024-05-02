@@ -40,8 +40,9 @@ export class AuthController {
     @HttpCode(HttpStatus.CREATED)
     @Post('auth/signup')
     async signup(@Body() body: SignupDto): Promise<unknown> {
+        console.log('Signup executed!: ', body);
         const signUpResponse = this.authService.signUp(body);
-        console.log(signUpResponse);
+        console.log('signup response: ', signUpResponse);
         return signUpResponse;
     }
 
@@ -73,7 +74,7 @@ export class AuthController {
 
     @Get('auth/email-verified')
     async GetverifyEmailCode(@Query() params: {email, code}) {
-
+        console.log('email verified get request');
         const email = params.email;
         const code = params.code;
         const emailToVerify = await this.verifyEmailService.findOne({where: {email, code}});
