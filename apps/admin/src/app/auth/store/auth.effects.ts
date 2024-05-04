@@ -51,7 +51,6 @@ export class AuthEffects {
     authSignup$ = createEffect(() => this.actions$.pipe(
             ofType(AuthActions.authSignupStart),
             exhaustMap((action) => {
-                console.log('authSignupStart: ', action);
                 const payload = {
                     email: action.email,
                     password: action.password,
@@ -61,7 +60,6 @@ export class AuthEffects {
                 }
                 return this.authService.signup(payload).pipe(
                     map(() =>  {
-                        console.log('signed up called!');
                         return AuthActions.authSignedUp();
                     }),
                     catchError(error => this.authService.handleError(AuthActions.authFailure({error: error})))
@@ -79,7 +77,6 @@ export class AuthEffects {
             };
             return this.authService.signin(payload).pipe(
                 map((userData) => {
-                    console.log('USERDATA: ', userData);
                     return AuthActions.authSuccess(userData);
                 }),
                 catchError(error => this.authService.handleError(AuthActions.authFailure({error: error})))

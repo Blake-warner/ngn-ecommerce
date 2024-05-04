@@ -1,4 +1,4 @@
-.full-screen {
+.full-screen, .col.full-screen {
     height: 100vh;
 }
 
@@ -26,9 +26,37 @@
     margin-right: $space;
 }
 
+@mixin col($layout:'uniform') {
+    @if($layout == 'uniform') {
+
+    }
+}
+
+@mixin width-calc($negative-space) {
+    width: calc(100% - $negative-space);
+}
+
 .flex {
     display: flex;
     justify-content: center;
     align-items: center;
     align-content: center;
+}
+
+.horizontal-center {
+    justify-content: center;
+}
+
+.vertical-center {
+
+}
+
+.col {
+    box-sizing: border-box;
+    position:relative;
+    padding: 20px;
+    height: 100%;
+    &> .col {
+        padding: 0;
+    }
 }

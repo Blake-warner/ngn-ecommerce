@@ -6,9 +6,12 @@ import { Cache } from "cache-manager";
 import * as CONSTANTS from '../shared/constants';
 import { CACHE_MANAGER, CacheInterceptor, CacheKey, CacheTTL } from '@nestjs/cache-manager';
 import { EventEmitter2 } from "@nestjs/event-emitter";
+import { AuthType } from '../auth/enums/auth-type.enum';
+import { Auth } from '../auth/decorators/auth.decorator';
 
 const rootPath = CONSTANTS.versions; // /v1
 
+@Auth(AuthType.Bearer)
 @Controller(rootPath)
 export class ProductController {
     constructor(
@@ -30,23 +33,10 @@ export class ProductController {
     @Get('products')
     findAll() {
         const products = this.productService.find();
+        console.log('Products from backend: ', products);
         return products;
     }
 
-    /*
-    @CacheKey('products_frontend')
-    @CacheTTL(30 * 60)
-    @Get('products/frontend')
-    @UseInterceptors(CacheInterceptor)
-    frontend() {
-        return this.productService.find();
-    }
-
-    @Get('products/backend')
-    backend() {
-        return this.productService.find();
-    }
-*/
     @Get('product/:id')
     findOne(@Param('id') id: string) {
         const product = this.productService.findOne({where: {id}});

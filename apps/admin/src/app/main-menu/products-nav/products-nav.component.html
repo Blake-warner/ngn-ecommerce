@@ -1,9 +1,14 @@
-<ul class="position-relative mb-4">
-    @for (item of menu; track item.name) {
-        <li>
-            <a href="#" routerLink={{item.url}}>{{item.name}}</a>
-        </li>
-    } @empty {
-        <li></li>
-    }
+<ul class="menu">
+    <li class="item">
+        <a routerLink="products">Products</a>
+        <ul class="child">
+            @for (item of menu; track item.name) {
+                <li class="item">
+                    <a href="#" routerLink={{item.url}}>{{item.name}}</a>
+                </li>
+            } @empty {
+                <li></li>
+            }
+        </ul>
+    </li>
 </ul>

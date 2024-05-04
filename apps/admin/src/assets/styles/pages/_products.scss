@@ -1,0 +1,15 @@
+.mdc-data-table__table {
+    min-width:auto;
+    width: 100%;
+}
+
+#new-product-form {
+    .col {
+        &:first-child {
+            width: 70%;
+        }
+        &:last-child {
+            width: 30%;
+        }
+    }
+}

@@ -14,9 +14,12 @@ import { LocalAuthGuard } from './guards/local-auth.guard';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { JwtService } from '@nestjs/jwt';
 import { RefreshTokenDto } from './dtos/refresh-token.dto';
+import { Auth } from './decorators/auth.decorator';
+import { AuthType } from './enums/auth-type.enum';
 
 const rootPath = CONSTANTS.versions; // /v1
 
+@Auth(AuthType.None)
 @Controller(rootPath)
 export class AuthController {
 

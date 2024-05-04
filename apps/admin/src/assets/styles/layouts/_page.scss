@@ -1,0 +1,4 @@
+#page-display {
+    @include width-calc(190px);
+    z-index: 1;
+}

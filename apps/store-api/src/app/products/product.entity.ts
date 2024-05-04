@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToMany, JoinTable, Double } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToMany, JoinTable } from 'typeorm';
 import { Category } from '../categories/category.entity';
 import { Attribute } from '../attributes/attribute.entity';
 
@@ -14,7 +14,9 @@ export class Product {
     title: string;
 
     @ManyToMany(() => Category)
-    @JoinTable()
+    @JoinTable({
+        name: 'test'
+    })
     categories: Category[];
 
     @Column()
@@ -27,7 +29,7 @@ export class Product {
     price: number;
 
     @Column({ nullable: false, type: "float",  default: 0.0 })
-    sales_price: Double;
+    sales_price: number;
 
     @OneToMany(() => Attribute, (attribute) => attribute.product)
     attributes: Attribute[]
