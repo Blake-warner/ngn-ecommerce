@@ -20,7 +20,6 @@ export class SigninComponent {
       email: form.value.email,
       password: form.value.password
     };
-    console.log('wtf!', payload);
     this.store.dispatch(AuthActions.authSigninStart(payload));
   }
 }

@@ -11,12 +11,12 @@ import { RouterModule } from '@angular/router';
 })
 export class ProductsNavComponent {
     menu: {name: string, url: string}[] = [
-      { name: 'All Products', url: '/all-products' },
-      { name: 'Add New', url: '/add-new' },
-      { name: 'Categories', url: '/categories' },
-      { name: 'Tags', url: '/tags' },
-      { name: 'Attributes', url: '/attributes' },
-      { name: 'Reviews', url: '/reviews' },
-      { name: 'Taxonomy Order', url: '/taxonomy-order' },
+      { name: 'All Products', url: 'products' },
+      { name: 'Add New', url: 'product/new' },
+      { name: 'Categories', url: 'categories' },
+      { name: 'Tags', url: 'tags' },
+      { name: 'Attributes', url: 'attributes' },
+      { name: 'Reviews', url: 'reviews' },
+      { name: 'Taxonomy Order', url: 'taxonomy-order' },
     ]
 }

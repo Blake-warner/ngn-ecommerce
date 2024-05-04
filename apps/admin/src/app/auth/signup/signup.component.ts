@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -34,8 +34,9 @@ export class SignupComponent implements OnInit {
   constructor(private store: Store<appStore.State>, private authService: AuthService, private route: ActivatedRoute) {}
 
   ngOnInit() {
+    this.val = 2;
     const timer = setTimeout(() => {
-      this.val = 2;
+     // this.val = 2;
       clearTimeout(timer);
     }, 500);
   }
@@ -54,25 +55,26 @@ export class SignupComponent implements OnInit {
       const stringifiedCode = ''+form.value._1 +form.value._2+form.value._3+form.value._4+form.value._5;
       const code = parseInt(stringifiedCode);
       console.log(code, typeof code);
-      const payload = {email: tempUserData.email, code, tempUserData};
-      console.log(payload);
-      this.store.dispatch(AuthActions.authEmailVerified(payload));
+      if (tempUserData) {
+        const payload = {email: tempUserData.email, code, tempUserData};
+        console.log(payload);
+        this.store.dispatch(AuthActions.authEmailVerified(payload));
+      } else {
+        throw Error('Email credentials are not verified');
+      }
     })
   }
 
   validateDigits(event: any) {
-    console.log(event);
     const inputDigit = Number(event.key);
     const chars = event.target.name.split("");
-    console.log(typeof chars);
     const digit = chars.splice(1,1);
     const digitNumber = Number(digit[0]) + 1;
     const nextInputName = '_' + digitNumber;
-    console.log(typeof nextInputName, nextInputName);
-    if (inputDigit >= 0 && inputDigit <= 9) {
+    if (inputDigit >= 0 && inputDigit <= 9 && Number(digit[0]) < 5) {
       document.getElementsByName(nextInputName)[0].focus();
-    } else if ((event.key === 'Backspace' || event.key === 'Delete') && Number(digit) > 1) {
-      const priorInputName = '_' + (Number(digit) - 1);
+    } else if ((event.key === 'Backspace' || event.key === 'Delete') && Number(digit[0]) > 1) {
+      const priorInputName = '_' + (Number(digit[0]) - 1);
       document.getElementsByName(priorInputName)[0].focus();
     }
   }

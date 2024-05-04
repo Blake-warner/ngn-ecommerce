@@ -24,25 +24,25 @@ export class AuthService {
   ) {}
 
   async signUp(payload: SignupDto) {
+    console.log('payload from signup: ', payload);
     try {
       const {password, ...data} = payload;
-      const hashed = this.hashingService.hash(password);
+      const hashed = await this.hashingService.hash(password);
+      console.log({...data, password: hashed});
       await this.userService.save({
           ...data,
           password: hashed,
       });
-  } catch(err) {
-    const pgUniqueViolationErrorCode = '23505';
-    if (err.code === pgUniqueViolationErrorCode) {
-      throw new ConflictException();
+    } catch(err) {
+      const pgUniqueViolationErrorCode = '23505';
+      if (err.code === pgUniqueViolationErrorCode) {
+        throw new ConflictException();
+      }
+      throw err;
     }
-    throw err;
-  }
- 
-
-  return {
-      message: 'User Saved Successfully!',
-  }    
+    return {
+        message: 'User Saved Successfully!',
+    }    
   }
 
   async signIn(email, password) {
@@ -119,6 +119,7 @@ export class AuthService {
       this.signToken(user.id, this.jwtConfiguration.refreshTokenTtl),
     ]);
     return {
+      user,
       accessToken,
       refreshToken,
     }

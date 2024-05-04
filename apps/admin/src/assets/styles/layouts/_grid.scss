@@ -1,3 +1,62 @@
-.full-screen {
+.full-screen, .col.full-screen {
     height: 100vh;
+}
+
+.container {
+    width: 100%;
+    position: relative;
+}
+
+@mixin padding($space:24px) {
+    padding: $space;
+}
+@mixin margin($space:24px) {
+    margin: $space;
+}
+@mixin m-top($space:24px) {
+    margin-top: $space;
+}
+@mixin m-bottom($space:24px) {
+    margin-bottom: $space;
+}
+@mixin m-left($space:24px) {
+    margin-left: $space;
+}
+@mixin m-right($space:24px) {
+    margin-right: $space;
+}
+
+@mixin col($layout:'uniform') {
+    @if($layout == 'uniform') {
+
+    }
+}
+
+@mixin width-calc($negative-space) {
+    width: calc(100% - $negative-space);
+}
+
+.flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+.horizontal-center {
+    justify-content: center;
+}
+
+.vertical-center {
+
+}
+
+.col {
+    box-sizing: border-box;
+    position:relative;
+    padding: 20px;
+    height: 100%;
+    &> .col {
+        padding: 0;
+    }
 }

@@ -3,6 +3,9 @@ import { RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { MainMenuComponent } from './main-menu/main-menu.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { Store } from '@ngrx/store';
+import * as appState from './store/index';
+import {AuthActions} from './auth/store/auth.actions';
 
 @Component({
   standalone: true,
@@ -12,5 +15,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
+  constructor(private store: Store<appState.State>) {}
 
+  ngOnInit() {
+    this.store.dispatch(AuthActions.authAutoSignin());
+  }
 }

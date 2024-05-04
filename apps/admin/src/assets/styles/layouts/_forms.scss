@@ -1,0 +1,69 @@
+#form-auth {
+    max-width: 330px;
+    transition: opacity .4s;
+}
+
+#signin {
+    max-width: 330px;
+    @include padding(15px);
+    @include margin(auto);
+}
+
+.auth-form-container {
+    transition: transform 1s;
+    @include padding(15px);
+    width: 100%;
+    margin: auto;
+    transform: translateX(25%);
+}
+
+#form-email-code {
+    max-width: 400px;
+    transition: opacity .4s;
+    opacity: 0;
+    pointer-events: none;
+    input {
+        height: 100%;
+    }
+    .wrapper {
+        display: flex;
+        justify-content: space-between;
+        padding: 30px 0;
+        .block {
+            width: 60px;
+            height: 70px;
+        }
+    }
+}
+
+.form-floating > label {
+    padding: 13px 0.75rem;
+}
+
+.form-floating > .form-control {
+    height: 44px;
+    min-height: 44px;
+}
+
+.auth-form-container.show-email-code {
+    transform: translateX(-25%);
+    #form-auth {
+        opacity: 0;
+        pointer-events: none;
+    }
+    #form-email-code {
+        opacity: 1;
+        pointer-events: auto;
+    }
+}
+
+.auth-form-container.show-auth {
+    #form-auth {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    #form-email-code {
+        opacity: 0;
+        pointer-events: none;
+    }
+}

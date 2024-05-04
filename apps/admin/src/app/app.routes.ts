@@ -6,7 +6,7 @@ import { SignupComponent } from './auth/signup/signup.component';
 export const appRoutes: Route[] = [
     { path: '', pathMatch: 'full', redirectTo: 'signup' },
     {
-        path: '',
+        path: 'dashboard',
         loadChildren: () =>
             import('./dashboard/dashboard.routes')
                 .then(m => m.DASHBOARD_ROUTES)
