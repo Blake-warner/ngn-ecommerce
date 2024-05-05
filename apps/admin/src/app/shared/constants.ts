@@ -8,9 +8,12 @@ export const API_PREFIX = '/api';
 export const AUTH_SIGNUP = '/auth/signup';
 export const AUTH_SIGNIN = '/auth/signin';
 export const VALIDATED_USER = '/validate-user';
+export const REFRESH_TOKENS = '/refresh-tokens'
 export const SIGNUP_ENDPOINT = HOST + ':' + API_PORT + API_PREFIX + VERSION + AUTH_SIGNUP;
 export const SIGNIN_ENDPOINT = HOST + ':' + API_PORT + API_PREFIX + VERSION + AUTH_SIGNIN;
 export const VALIDATED_USER_ENDPOINT = HOST + ':' + API_PORT + API_PREFIX + VERSION + VALIDATED_USER;
+export const REFRESH_TOKENS_ENDPOINT = HOST + ':' + API_PORT + API_PREFIX + VERSION + REFRESH_TOKENS;
+
 // Mailer
 export const VERIFY_EMAIL = '/auth/verify-email';
 export const EMAIL_VERIFIED = '/auth/email-verified';
