@@ -15,7 +15,7 @@ export class Product {
 
     @ManyToMany(() => Category)
     @JoinTable({
-        name: 'test'
+        name: 'product_categories'
     })
     categories: Category[];
 

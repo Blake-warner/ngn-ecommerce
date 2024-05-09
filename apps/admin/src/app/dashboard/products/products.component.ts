@@ -13,6 +13,8 @@ import { ProductCategoriesService } from './product-categories/product-categorie
 import { ProductCategory } from './product-categories/product-category';
 import * as ProductActions from './store/product.actions';
 
+
+
 @Component({
   selector: 'app-products',
   standalone: true,
@@ -22,7 +24,7 @@ import * as ProductActions from './store/product.actions';
 })
 export class ProductsComponent implements OnInit {
   public products: Product[] = [];
-  public categoires: ProductCategory[] = [];
+  public categories: ProductCategory[] = [];
   constructor(
     private store: Store<appStore.State>,
     private http: HttpClient,
@@ -67,10 +69,11 @@ export class ProductsComponent implements OnInit {
       this.productsService.products$.next(products);
       this.dataSource = new MatTableDataSource<Product>(products);
       this.products = [...products];
+      console.log(this.products);
     });
 
     this.categoriesService.fetchProductCategories().subscribe((categories) => {
-      this.categoires = categories;
+      this.categories = categories;
     });
 
     this.store.dispatch(ProductActions.ProductActions.fetchProducts());

@@ -6,39 +6,73 @@
                 <h2>Product Title</h2>
                 <input type="text" name="title" ngModel class="form-control" placeholder="Product Title">
             </div>
-            <div class="form-field-wrapper">
-                <h2>Product Description</h2>
-                <textarea ngModel name="description" class="form-control"></textarea>
-            </div>
+            <section class="container">
+                <div class="form-field-wrapper">
+                    <h2>Product Description</h2>
+                    <textarea ngModel name="description" class="form-control"></textarea>
+                </div>
+            </section>
             <div class="form-field-wrapper">
                 <button type="submit">Save Product</button>
             </div>
         </div>
         <div class="col">
-            <div class="form-field-wrapper">
-                <h2>Product Gallery</h2>
-                <input type="file" name="gallery-images" ngModel class="form-control">
-            </div>
-            <div class="form-field-wrapper">
-                <h2>Product Image</h2>
-                <a (click)="imageUpload()">Set product image</a>
-                <div [ngClass]="{'hide': !showImageUpload}">
-                    <input type="file" name="product-image" ngModel class="form-control">
+            <section class="container">
+                <div class="form-field-wrapper">
+                    <h2>Product Gallery</h2>
+                    <input type="file" name="gallery-images" ngModel class="form-control">
                 </div>
-            </div>
-            <div class="form-field-wrapper">
-                <h2>Product Categories</h2>
-                <div class="categories">
-                    @for (cat of categories; track cat.title) {
-                        <label>
-                            <input type="checkbox" name='{{cat.title}}' ngModel class="form-control"/>
-                            {{ cat.title }}
-                        </label>
-                    }
+            </section>
+            <section class="container">
+                <div class="form-field-wrapper">
+                    <h2>Product Image</h2>
+                    <div class="link" (click)="imageUpload()">Set product image</div>
+                    <div [ngClass]="{'hide': !showImageUpload}">
+                        <input type="file" name="product-image" ngModel class="form-control">
+                    </div>
                 </div>
-                <div class="link"></div>
-                <input type="text" name="category" ngModel class="form-control">
-            </div>
+            </section>
+            <section class="container">
+                <div class="form-field-wrapper">
+                    <h2>Product Categories</h2>
+                    <div class="categories">
+                        @for (cat of categories; track cat.title) {
+                            <label>
+                                <input type="checkbox" name='{{cat.title}}' ngModel class="form-control"/>
+                                <span>{{ cat.title }}</span>
+                            </label>
+                            @for (childCat of cat.children; track childCat.title) {
+                                <div class="child">
+                                    <label>
+                                        <input type="checkbox" name='{{childCat.title}}' ngModel class="form-control"/>
+                                        <span>{{ childCat.title }}</span>
+                                    </label>
+                                </div>
+                            }
+                        }
+                    </div>
+                    <div class="link" (click)="onDisplayNewCatField()">
+                        Add new category
+                    </div>
+                    <div id="new-cat" [ngClass]="{'hide': !showNewCatField}">
+                        <div class="form-field-wrapper">
+                            <input #newCat type="text" ngModel name="category" (blur)="onTypeNewCategory($event)" class="form-control">
+                        </div>
+                        <div class="form-field-wrapper">
+                            <select name="cat-hierarchy" ngModel #catHierarchy id="new-cat-field">
+                                <option value="-1">— Parent category —</option>
+                                @for (cat of categories; track cat.title) {
+                                    <option class="parent" value="{{cat.id}}">{{cat.title}}</option>
+                                    @for (childCat of cat.children; track childCat.title) {
+                                        <option class="child" value="{{childCat.id}}">{{childCat.title}}</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <button (click)="onAddCategory($event)" [disabled]="!newCategorySubmit">Add new category</button>
+                    </div>
+                </div>
+            </section>
         </div>
     </div>
 </form>

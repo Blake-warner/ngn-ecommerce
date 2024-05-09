@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
-import { map, exhaustMap, tap } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
+import { map, exhaustMap } from 'rxjs/operators';
 import { ProductActions } from './product.actions';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';

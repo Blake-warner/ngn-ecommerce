@@ -22,9 +22,23 @@ export class ProductController {
 
     @Post('products')
     async create(@Body() createProductDto: CreateProductDto) {
-        const products = await this.productService.save(createProductDto);
-        this.eventEmitter.emit('products_updated');
-        return products;
+        if(createProductDto.categories) {
+            const addedCategories = await this.productService.AddCategories(createProductDto.categories);
+            console.log(addedCategories);
+        }
+        if(createProductDto.attributes) {
+            // put attributes mwthod here
+        }
+
+        try {
+            setTimeout(() => {
+                const products = this.productService.save(createProductDto);
+                this.eventEmitter.emit('products_updated');
+                return products;
+            }, 1000)
+        } catch (err) {
+            console.log(err);
+        }
     }
 
     @CacheKey('products_frontend')
@@ -32,9 +46,17 @@ export class ProductController {
     @UseInterceptors(CacheInterceptor)
     @Get('products')
     findAll() {
-        const products = this.productService.find();
-        console.log('Products from backend: ', products);
-        return products;
+        try {
+            const products = this.productService.find({
+                relations: {
+                    categories: true,
+                }
+            });
+            console.log('Products from backend: ', products);
+            return products;
+        } catch(err) {
+            console.log(err)
+        }
     }
 
     @Get('product/:id')

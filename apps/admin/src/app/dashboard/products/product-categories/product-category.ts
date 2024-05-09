@@ -1,6 +1,6 @@
 export interface ProductCategory {
     id: number,
     title: string,
-    children?: ProductCategory[],
+    children: ProductCategory[],
     parent?: ProductCategory
 }

@@ -1,0 +1,22 @@
+.categories {
+    input {
+        position: relative;
+        display: inline-block;
+        top: 1px;
+    }
+    span {
+        position: relative;
+        display: inline-block;
+    }
+    label {
+        margin-bottom: 6px;
+    }
+    .child {
+        left: 16px;
+        position: relative;
+    }
+}
+
+#new-cat-field * {
+    text-indent: 10px;
+}

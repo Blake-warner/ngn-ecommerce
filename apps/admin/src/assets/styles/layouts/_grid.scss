@@ -38,17 +38,13 @@
 
 .flex {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start;
+    align-items: flex-start;
     align-content: center;
 }
 
 .horizontal-center {
     justify-content: center;
-}
-
-.vertical-center {
-
 }
 
 .col {

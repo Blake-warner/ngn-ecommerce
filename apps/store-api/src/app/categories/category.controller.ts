@@ -6,6 +6,7 @@ import { Cache } from "cache-manager";
 import { CACHE_MANAGER, CacheInterceptor, CacheKey, CacheTTL } from '@nestjs/cache-manager';
 import * as CONSTANTS from '../shared/constants';
 import { EventEmitter2 } from "@nestjs/event-emitter";
+import { CategoryTreeService } from './category-tree.service';
 
 const rootPath = CONSTANTS.versions; // '/v1
 
@@ -14,14 +15,28 @@ export class CategoryController {
     constructor( 
         @Inject(CACHE_MANAGER) private cacheManager: Cache,
         private categoryService: CategoryService,
+        private categoryTreeService: CategoryTreeService,
         private eventEmitter: EventEmitter2
     ){}
 
     @Post('categories')
     async create(@Body() createCategorytDto: CreateCategoryDto) {
-        const products = await this.categoryService.save(createCategorytDto);
+        let category;
+        if(createCategorytDto.parent) {
+            const parent = await this.categoryService.findOne({where: {id: createCategorytDto.parent}});
+            const newCategory = {
+                title: createCategorytDto.title,
+                parent
+            };
+            category = await this.categoryService.save(newCategory);
+        } else {
+            const newCategory = {
+                title: createCategorytDto.title
+            };
+            category = await this.categoryService.save(newCategory);
+        }
         this.eventEmitter.emit('categories');
-        return products;
+        return category;
     }
 
     @CacheKey('categories')
@@ -49,5 +64,11 @@ export class CategoryController {
         const deletedCategory = this.categoryService.delete(id);
         this.eventEmitter.emit('categories');
         return deletedCategory;
+    }
+
+    @Get('category-tree')
+    async findTree() {
+        const catTree = await this.categoryTreeService.getTree();
+        return catTree;
     }
 }

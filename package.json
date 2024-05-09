@@ -23,6 +23,7 @@
     "@coreui/angular": "^4.7.3",
     "@coreui/coreui": "^4.3.2",
     "@coreui/utils": "^2.0.2",
+    "@faker-js/faker": "^8.4.1",
     "@nestjs-modules/mailer": "1.10.3",
     "@nestjs/cache-manager": "^2.1.1",
     "@nestjs/common": "^10.0.2",

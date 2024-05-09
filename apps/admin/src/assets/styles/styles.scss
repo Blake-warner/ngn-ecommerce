@@ -36,6 +36,7 @@ $admin-theme: mat.define-light-theme((
 @include mat.all-component-themes($admin-theme);
 
 /* You can add global styles to this file, and also import other style files */
+@import 'utils/variables';
 @import 'base/globals';
 @import 'base/typography';
 @import 'base/reset';
@@ -45,4 +46,6 @@ $admin-theme: mat.define-light-theme((
 @import 'layouts/page';
 @import 'pages/products';
 @import 'pages/new-product';
+@import 'pages/dashboard';
 @import 'components/form-fields';
+@import 'components/buttons';
