@@ -36,10 +36,10 @@ $admin-theme: mat.define-light-theme((
 @include mat.all-component-themes($admin-theme);
 
 /* You can add global styles to this file, and also import other style files */
+@import 'base/reset';
 @import 'utils/variables';
 @import 'base/globals';
 @import 'base/typography';
-@import 'base/reset';
 @import 'layouts/grid';
 @import 'layouts/menu';
 @import 'layouts/forms';

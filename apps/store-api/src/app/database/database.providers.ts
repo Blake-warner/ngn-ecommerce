@@ -26,7 +26,6 @@ export const databaseProviders = [
         ],
         synchronize: true,
       });
-
       return dataSource.initialize();
     },
   },
