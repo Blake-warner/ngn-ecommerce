@@ -23,12 +23,11 @@ export class UserController {
     @Get('users')
     findAll() {
         const users = this.userService.find();
-        console.log("users from findall ", users);
         return users;
     }
 
     @Get('validate-user')
-    validateUser(@ActiveUser() activeUser: ActiveUserData, @Body() body: any) {
+    validateUser<T>(@ActiveUser() activeUser: ActiveUserData, @Body() body: T) {
         console.log('validated user: ', activeUser);
         console.log(body);
         return activeUser;

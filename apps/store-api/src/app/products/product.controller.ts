@@ -22,6 +22,7 @@ export class ProductController {
 
     @Post('products')
     async create(@Body() createProductDto: CreateProductDto) {
+        console.log('incoming product: ', createProductDto);
         if(createProductDto.categories) {
             const addedCategories = await this.productService.AddCategories(createProductDto.categories);
             console.log(addedCategories);
@@ -31,11 +32,9 @@ export class ProductController {
         }
 
         try {
-            setTimeout(() => {
-                const products = this.productService.save(createProductDto);
-                this.eventEmitter.emit('products_updated');
-                return products;
-            }, 1000)
+            const products = this.productService.save(createProductDto);
+            this.eventEmitter.emit('products_updated');
+            return products;
         } catch (err) {
             console.log(err);
         }

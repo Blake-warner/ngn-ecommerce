@@ -34,11 +34,10 @@ export class AuthEffects {
             return this.http.get<Product[]>(CONSTANTS.PRODUCTS_ENDPOINT).pipe(
                 map(products => {
                     console.log(products);
-
                     return ProductActions.setProducts({products})
                 })
             );
         }),
-    ),);
+    ),{dispatch: false});
 }
 

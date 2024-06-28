@@ -1,27 +1,42 @@
 #form-auth {
-    max-width: 330px;
     transition: opacity .4s;
+    width: 100%;
+    position: absolute;
+    margin: auto;
+    max-width: 330px;
+    top: 50%;
+    left: 50%;
 }
 
 #signin {
-    max-width: 330px;
+    width: 100%;
     @include padding(15px);
     @include margin(auto);
+    box-sizing: border-box;
+    max-width: 330px;
+    margin: auto;
+    top: 50%;
+    transform: translateY(-50%);
+    height: auto;
 }
 
 .auth-form-container {
-    transition: transform 1s;
     @include padding(15px);
     width: 100%;
-    margin: auto;
-    transform: translateX(25%);
+    box-sizing: border-box;
 }
 
 #form-email-code {
-    max-width: 400px;
+    width: 100%;
     transition: opacity .4s;
     opacity: 0;
     pointer-events: none;
+    position: absolute;
+    transform: translate(100%, -50%);
+    margin: auto;
+    max-width: 330px;
+    top: 50%;
+    left: 100%;
     input {
         height: 100%;
     }
@@ -37,33 +52,44 @@
 }
 
 .form-floating > label {
-    padding: 13px 0.75rem;
+    padding: 13px 0;
 }
 
 .form-floating > .form-control {
     height: 44px;
     min-height: 44px;
+    border: solid 1px #2271b1;
 }
 
 .auth-form-container.show-email-code {
-    transform: translateX(-25%);
     #form-auth {
         opacity: 0;
+        display: none;
         pointer-events: none;
+        transform: translate(-100%, -50%);
+        left: 0;
     }
     #form-email-code {
         opacity: 1;
+        display: block;
         pointer-events: auto;
+        transform: translate(-50%, -50%);
+        left: 50%;
     }
 }
 
 .auth-form-container.show-auth {
     #form-auth {
         opacity: 1;
+        display: block;
         pointer-events: auto;
+        transform: translate(-50%, -50%);
+        left: 50%;
     }
     #form-email-code {
         opacity: 0;
+        display: none;
         pointer-events: none;
+        left: 100%;
     }
 }

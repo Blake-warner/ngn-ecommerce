@@ -77,5 +77,6 @@ export class ProductsComponent implements OnInit {
     });
 
     this.store.dispatch(ProductActions.ProductActions.fetchProducts());
+    //this.store.dispatch(ProductActions.ProductActions.addProduct())
   }
 }

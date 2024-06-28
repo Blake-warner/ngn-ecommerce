@@ -99,7 +99,8 @@ export class AuthService {
     expiresIn: number,
     payload?: T,
   ) {
-    return await this.jwtService.signAsync(
+    console.log('jwtConfig: ', this.jwtConfiguration)
+    const jwtToken = this.jwtService.signAsync(
       {
         sub: userId,
         ...payload
@@ -111,6 +112,7 @@ export class AuthService {
         expiresIn
       },
     );
+    console.log('jwtToken: ', jwtToken);
   }
 
   async generateTokens(user: User) {

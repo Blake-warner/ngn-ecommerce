@@ -27,7 +27,7 @@ export class Product {
 
     @Column({ nullable: false, type: "float", default: 0.0 })
     price: number;
-
+dfc                                   
     @Column({ nullable: false, type: "float",  default: 0.0 })
     sales_price: number;
 

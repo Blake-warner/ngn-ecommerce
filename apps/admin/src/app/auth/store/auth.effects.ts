@@ -31,9 +31,10 @@ export class AuthEffects {
     authVerifyEmail$ = createEffect(() => this.actions$.pipe(
         ofType(AuthActions.authVerifyEmail),
         exhaustMap((action) => {
+            console.log(action);
             return this.authService.verifyEmail(action.tempUserData.email)
         }),
-        catchError(error => this.authService.handleError(AuthActions.authFailure({error: error})))
+        catchError(error => this.authService.handleError(AuthActions.authFailure(error)))
     ), {dispatch: false});
 
     authEmailVerified$ = createEffect(() => this.actions$.pipe(
@@ -107,20 +108,23 @@ export class AuthEffects {
     authAutoSignin$ = createEffect(() => this.actions$.pipe(
         ofType(AuthActions.authAutoSignin),
         map(() => {
-            const user = JSON.parse(localStorage.getItem('user') as string);
-            const tokens = JSON.parse(localStorage.getItem('authTokens') as string);
-            const payload = {
-                user,
-                accessToken: tokens.accessToken,
-                refreshToken: tokens.refreshToken,
-            }
-            const isUserAuth = !Object.values(payload).every(prop => prop === null);
-            if(isUserAuth) {
+            const storedUser = localStorage.getItem('user');
+            const storedTokens = localStorage.getItem('authTokens');
+            if(storedTokens && storedUser) {
+                const user = JSON.parse(localStorage.getItem('user') as string);
+                const tokens = JSON.parse(localStorage.getItem('authTokens') as string);
+                const payload = {
+                    user,
+                    accessToken: tokens.accessToken,
+                    refreshToken: tokens.refreshToken,
+                }
                 return AuthActions.authSuccess(payload)
+            } else {
+                return AuthActions.authFailure({ error: { error: 'Auto Login Failed due to missing authentication data'} });
             }
-            return AuthActions.authFailure({ error: 'Auto Login Failed due to missing authentication data' });
         }),
         catchError(errorRes => {
+            console.log(errorRes);
             return this.authService.handleError(errorRes);
         })
     ));

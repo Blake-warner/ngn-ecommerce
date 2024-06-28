@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Get, HttpCode, HttpStatus, Post, Query, Request, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, HttpCode, HttpStatus, Post, Query, Request, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { SigninDto } from './dtos/signin.dto';
 import { SignupDto } from './dtos/signup.dto';
 import { AuthService } from './auth.service';
@@ -16,6 +16,7 @@ import { JwtService } from '@nestjs/jwt';
 import { RefreshTokenDto } from './dtos/refresh-token.dto';
 import { Auth } from './decorators/auth.decorator';
 import { AuthType } from './enums/auth-type.enum';
+import { User } from '../users/user.entity';
 
 const rootPath = CONSTANTS.versions; // /v1
 
@@ -52,6 +53,12 @@ export class AuthController {
     @HttpCode(HttpStatus.CREATED)
     @Post('auth/verify-email')
     async createEmailVerifyCode(@Body() body: EmailDto) {
+        console.log('verify email');
+        // check if email is duplicated
+        const userWithEmail = await this.userService.findOne({where: {email: body.email}}) as User;
+        if(userWithEmail) {
+            throw new UnauthorizedException('Email is already being used by a registered user');
+        }
 
         const verificationCode = Math.floor(Math.random() * 90000) + 10000; // Generate email validation code
         const payload = { email: body.email, code: verificationCode };
@@ -71,9 +78,12 @@ export class AuthController {
 
         // Save the email and verification code
         const verifyEmail = await this.verifyEmailService.save(payload);
+        console.log(verifyEmail);
         return verifyEmail;
 
     }
+
+    @Get('auth/')
 
     @Get('auth/email-verified')
     async GetverifyEmailCode(@Query() params: {email, code}) {

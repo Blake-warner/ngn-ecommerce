@@ -6,13 +6,12 @@
     a {
         color: #fff;
         text-decoration: none;
-        margin-bottom: 6px;
         display: block;
     }
     .child {
         left: 170px;
         top: 0;
-        background: #1b1e2e;
+        background: $child-menu-bg;
         width: 200px;
         &::before {
             content: '';
@@ -20,9 +19,25 @@
             height: 0; 
             border-top: 10px solid transparent; 
             border-bottom: 10px solid transparent; /* 40px height (20+20) */
-            border-right: 14px solid green;
-            position:absolute;
+            border-right: 14px solid $child-menu-bg;
+            position: absolute;
             left:-14px;
+            top: 20px;
+        }
+        .item {
+            a:hover {
+                color: $menu-item-hover;
+            }
+        }
+        .item:first-child {
+            a {
+                padding-top: 20px;
+            }
+        }
+        .item:last-child {
+            a {
+                padding-bottom: 20px;
+            }
         }
     }
 }
@@ -31,7 +46,7 @@
     position: relative;
     .item {
         a {
-            padding: 6px;
+            padding: 10px 20px;
         }
     }
     .child {

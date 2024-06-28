@@ -13,10 +13,10 @@ export class ProductsNavComponent {
     menu: {name: string, url: string}[] = [
       { name: 'All Products', url: 'products' },
       { name: 'Add New', url: 'product/new' },
-      { name: 'Categories', url: 'categories' },
-      { name: 'Tags', url: 'tags' },
-      { name: 'Attributes', url: 'attributes' },
-      { name: 'Reviews', url: 'reviews' },
-      { name: 'Taxonomy Order', url: 'taxonomy-order' },
+      { name: 'Categories', url: 'product/categories' },
+      { name: 'Tags', url: 'product/tags' },
+      { name: 'Attributes', url: 'product/attributes' },
+      { name: 'Reviews', url: 'product/reviews' },
+      { name: 'Taxonomy Order', url: 'product/taxonomy-order' },
     ]
 }

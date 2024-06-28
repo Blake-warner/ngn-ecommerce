@@ -54,10 +54,8 @@ export class SignupComponent implements OnInit {
     this.store.select(appStore.selectTempUser).subscribe((tempUserData) => {
       const stringifiedCode = ''+form.value._1 +form.value._2+form.value._3+form.value._4+form.value._5;
       const code = parseInt(stringifiedCode);
-      console.log(code, typeof code);
       if (tempUserData) {
         const payload = {email: tempUserData.email, code, tempUserData};
-        console.log(payload);
         this.store.dispatch(AuthActions.authEmailVerified(payload));
       } else {
         throw Error('Email credentials are not verified');

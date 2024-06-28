@@ -15,9 +15,15 @@ export class ProductsService {
     }
 
     fetchProducts() {
-        return this.http.get<Product[]>(CONSTANTS.PRODUCTS_ENDPOINT)
+        return this.http.get<Product[]>(CONSTANTS.PRODUCTS_ENDPOINT);
     }
 
+    fetchProductsById(id: number) {
+        return this.http.get<Product>(CONSTANTS.PRODUCT_ENDPOINT+'/'+id);
+    }
 
+    saveProduct(product: Product) {
+        return this.http.post<Product>(CONSTANTS.PRODUCTS_ENDPOINT, product);
+    }
 
 }

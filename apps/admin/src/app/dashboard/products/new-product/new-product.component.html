@@ -1,10 +1,10 @@
 <h1>Add New</h1>
-<form (ngSubmit)="onFormSubmit" #productform id="new-product-form">
+<form (ngSubmit)="onFormSubmit(productform, $event)" #productform="ngForm" id="new-product-form">
     <div class="flex">
         <div class="col">
             <div class="form-field-wrapper">
                 <h2>Product Title</h2>
-                <input type="text" name="title" ngModel class="form-control" placeholder="Product Title">
+                <input type="text" name="title" #productTitle ngModel class="form-control" (blur)="onNewProductSubmit($event)" placeholder="Product Title">
             </div>
             <section class="container">
                 <div class="form-field-wrapper">
@@ -12,15 +12,18 @@
                     <textarea ngModel name="description" class="form-control"></textarea>
                 </div>
             </section>
+            <section class="container">
+                <app-product-data></app-product-data>
+            </section>
             <div class="form-field-wrapper">
-                <button type="submit">Save Product</button>
+                <button type="submit" [disabled]="!newProductSubmit">Save Product</button>
             </div>
         </div>
         <div class="col">
             <section class="container">
                 <div class="form-field-wrapper">
                     <h2>Product Gallery</h2>
-                    <input type="file" name="gallery-images" ngModel class="form-control">
+                    <input type="file" name="image_gallery" ngModel class="form-control">
                 </div>
             </section>
             <section class="container">
@@ -28,7 +31,7 @@
                     <h2>Product Image</h2>
                     <div class="link" (click)="imageUpload()">Set product image</div>
                     <div [ngClass]="{'hide': !showImageUpload}">
-                        <input type="file" name="product-image" ngModel class="form-control">
+                        <input type="file" name="main_image" ngModel class="form-control">
                     </div>
                 </div>
             </section>
@@ -38,13 +41,13 @@
                     <div class="categories">
                         @for (cat of categories; track cat.title) {
                             <label>
-                                <input type="checkbox" name='{{cat.title}}' ngModel class="form-control"/>
+                                <input #cat type="checkbox" ngModel name="categories_list" value="{{cat.title}}" class="form-control"/>
                                 <span>{{ cat.title }}</span>
                             </label>
                             @for (childCat of cat.children; track childCat.title) {
                                 <div class="child">
                                     <label>
-                                        <input type="checkbox" name='{{childCat.title}}' ngModel class="form-control"/>
+                                        <input #cat type="checkbox" name="categories_list" value="{{childCat.title}}" ngModel class="form-control"/>
                                         <span>{{ childCat.title }}</span>
                                     </label>
                                 </div>

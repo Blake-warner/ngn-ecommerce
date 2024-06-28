@@ -14,6 +14,14 @@ input[type=checkbox] {
     width: auto;
 }
 
+input[type=text]:focus-visible {
+    border: $blue-bg!important;
+}
+
+input[type=file] {
+    padding: 0;
+}
+
 label {
     display: block;
 }

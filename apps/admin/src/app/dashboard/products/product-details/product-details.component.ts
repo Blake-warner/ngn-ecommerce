@@ -7,7 +7,7 @@ import { ActivatedRoute } from '@angular/router';
   selector: 'app-product-details',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './product-details.component.html',
+  templateUrl: './product-details.component.html', 
   styleUrl: './product-details.component.scss',
 })
 export class ProductDetailsComponent implements OnInit {
@@ -15,8 +15,4 @@ export class ProductDetailsComponent implements OnInit {
     private productsService: ProductsService,
     private activatedRoute: ActivatedRoute,
   ) {}
-
-  ngOnInit() {
-    //this.productsService.fetchProductsById()
-  }
 }

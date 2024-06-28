@@ -1,0 +1,25 @@
+.toolbar {
+    height: 56px;
+    vertical-align: middle;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding: 0 20px;
+    a {
+        display: inline-block;
+        &:hover {
+            cursor: pointer;
+        }
+    }
+    &#main-toolbar {
+        background: #39809a;
+        color: #fff;
+        justify-content: end;
+    }
+}
+
+.page.toolbar {
+    background: none;
+    color: $header-font;
+}
+

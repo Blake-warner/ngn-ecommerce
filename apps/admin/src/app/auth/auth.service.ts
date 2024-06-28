@@ -14,6 +14,7 @@ interface authUserPayload {
   refreshToken: string;
 }
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -62,6 +63,7 @@ export class AuthService {
   }
 
   handleAuthentication(payload: authUserPayload) {
+    console.log(payload);
     const authTokens = {
       accessToken: payload.accessToken,
       refreshToken: payload.refreshToken,
@@ -71,10 +73,11 @@ export class AuthService {
     this.router.navigate(['/dashboard']);
   }
 
-  handleError(error: any) {
+  handleError<T extends {error: { error: unknown }}>(error: T) {
+    console.log(error)
     let errorMessage = 'An Unkown Error Occured!';
     if (!error || !error.error.error) {
-      of(AuthActions.authFailure({error: errorMessage}));
+      of(AuthActions.authFailure({error: { error: errorMessage }}));
     }
     switch(error.error.error) {
       case 'EMAIL_EXISTS':
@@ -87,6 +90,6 @@ export class AuthService {
         errorMessage = 'This password is invalid';
         break;
     }
-    return of(AuthActions.authFailure({error: errorMessage}));
+    return of(AuthActions.authFailure({ error: { error: errorMessage } }));
   }
 }

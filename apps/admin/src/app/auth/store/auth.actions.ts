@@ -32,6 +32,6 @@ export const AuthActions = createActionGroup({
       role: Roles,
     }>(),
     'Auth Signout': emptyProps(),
-    'Auth Failure': props<{ error: string }>(),
+    'Auth Failure': props<{error: { error: string }}>(),
   }
 });

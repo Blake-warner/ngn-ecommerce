@@ -1,14 +1,14 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormsModule } from '@angular/forms';
 import { ProductsService } from '../products.service';
 import { ProductCategoriesService } from '../product-categories/product-categories.service';
-import { ProductCategory } from '../product-categories/product-category';
+import { ProductDataComponent } from '../product-data/product-data.component';
 
 @Component({
   selector: 'app-new-product',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule, ProductDataComponent],
   templateUrl: './new-product.component.html',
   styleUrl: './new-product.component.scss',
 })
@@ -17,16 +17,55 @@ export class NewProductComponent implements OnInit {
   showNewCatField: boolean = false;
   categories: any = [];
   @ViewChild('newCat') newCategoryValue!: ElementRef;
+  @ViewChild('productTitle') productForm!: ElementRef;
   @ViewChild('catHierarchy') categoryHierarchy!: ElementRef;
+  @ViewChildren('cat') categoryList!: QueryList<ElementRef>;
   newCategorySubmit = false;
+  newProductSubmit = false;
 
   constructor(
     private productService: ProductsService,
     private categoryService: ProductCategoriesService,
     ) { }
 
-  onFormSubmit(form: NgForm) {
+  onFormSubmit(form: NgForm, event: any) {
+    //event.preventDefault();
     console.log(form);
+    const productObject: any = {};
+    productObject.categories = [];
+
+    if(form.value.categories_list) {
+      this.categoryList.forEach((cat) => {
+        if(cat.nativeElement.checked) {
+          const categoryObject = { title: cat.nativeElement.value };
+          productObject.categories.push(categoryObject);
+        }
+      });
+    }
+
+    for(const key in form.value) {
+      const appendPropertyField = (
+        form.value[key] &&
+        key !== 'cat-hierarchy' &&
+        key !== 'categories_list' &&
+        key !== 'category') ? true : false;
+
+      if (appendPropertyField) {
+        productObject[key] = form.value[key];
+      }
+    };
+    this.productService.saveProduct(productObject).subscribe((product) => {
+      console.log(product);
+    });
+ 
+    console.log(productObject);
+  }
+
+  onNewProductSubmit(event: any) {
+    event.target.value;
+    console.log(typeof event.target.value);
+    this.newProductSubmit = event.target.value.length > 0 ? true : false;
+    console.log(this.newProductSubmit);
   }
 
   imageUpload() {
@@ -43,10 +82,9 @@ export class NewProductComponent implements OnInit {
       title: this.newCategoryValue.nativeElement.value,
       parent: this.categoryHierarchy.nativeElement.value
     }
-    console.log(newCategory);
     this.categoryService.createCategory(newCategory).subscribe((category) => {
       console.log(category);
-    })
+    });
   }
 
   onTypeNewCategory(event: any) {
@@ -62,6 +100,5 @@ export class NewProductComponent implements OnInit {
       this.categories = categories;
       console.log(categories);
     });
-    console.log(typeof this.newCategoryValue, " ", this.newCategoryValue)
   }
 }

@@ -12,7 +12,7 @@ interface NewCategory {
     providedIn: 'root'
 })
 export class ProductCategoriesService {
-    public productCategoires: ProductCategory[] = [];
+    public productCategories: ProductCategory[] = [];
     public productCategories$: BehaviorSubject<ProductCategory[]> = new BehaviorSubject<ProductCategory[]>([]);
     constructor(private http: HttpClient) {
 

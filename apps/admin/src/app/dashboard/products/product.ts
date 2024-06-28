@@ -1,13 +1,15 @@
 import { Attribute } from "@angular/core";
+import { ProductCategory } from './product-categories/product-category';
 
-export class Product {
-    constructor(
-        public id: number,
-        public sku: number,
-        public title: string,
-        public price: number,
-        public sales_price: number,
-        public attributes: Attribute[],
-        public mainImage: string
-    ) {}
+export interface Product {
+    id: number;
+    sku: number,
+    title: string,
+    price: number,
+    description: number,
+    attributes: Attribute[],
+    sales_price?: number,
+    categories?: ProductCategory[],
+    main_image?: string,
+    image_gallery?: string[]
 }
