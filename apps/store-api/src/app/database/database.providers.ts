@@ -11,11 +11,11 @@ export const databaseProviders = [
     useFactory: async () => {
       const dataSource = new DataSource({
         type: 'mysql',
-        host: 'db',
+        host: 'localhost',
         port: 3306,
         username: 'root',
         password: '1Yz6N7H6l0K5ABq',
-        database: 'ngn_ecommerce',
+        database: 'ngn_ecommerce_theme',
         entities: [
             __dirname + '/../**/*.entity{.ts,.js}',
             Product,

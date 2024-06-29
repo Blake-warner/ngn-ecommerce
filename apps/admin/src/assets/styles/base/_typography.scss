@@ -31,5 +31,13 @@ h1, h2, h3 {
     text-align: right;
 }
 
+.alert {
+    color: $alert-font;
+    font-weight: normal;
+    font-style: italic;
+    position: relative;
+    top: -14px;
+}
+
 html, body { height: 100%; }
 body { margin: 0; font-family: $main-font; }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpBackend, HttpClient } from '@angular/common/http';
 import * as CONSTANTS from '../shared/constants';
 import * as User from './user';
 import { Store } from '@ngrx/store';
@@ -21,10 +21,13 @@ interface authUserPayload {
 export class AuthService {
 
   constructor(
+    private handler: HttpBackend,
     private http: HttpClient,
     private store: Store<appStore.State>,
     private router: Router
-  ) { }
+  ) { 
+    this.http = new HttpClient(handler);
+  }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   accessTokenExpTimer: any;

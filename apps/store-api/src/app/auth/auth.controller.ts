@@ -83,8 +83,6 @@ export class AuthController {
 
     }
 
-    @Get('auth/')
-
     @Get('auth/email-verified')
     async GetverifyEmailCode(@Query() params: {email, code}) {
         console.log('email verified get request');

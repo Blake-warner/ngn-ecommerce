@@ -42,6 +42,9 @@ export class SignupComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
+    if(form.invalid) {
+      return;
+    }
     this.showEmailCodeForm = true;
     this.val = 3;
     const payload: User.tempUserData = {...form.value, role: Roles.Customer};
@@ -54,12 +57,8 @@ export class SignupComponent implements OnInit {
     this.store.select(appStore.selectTempUser).subscribe((tempUserData) => {
       const stringifiedCode = ''+form.value._1 +form.value._2+form.value._3+form.value._4+form.value._5;
       const code = parseInt(stringifiedCode);
-      if (tempUserData) {
-        const payload = {email: tempUserData.email, code, tempUserData};
+        const payload = {email: tempUserData?.email, code, tempUserData} as { email: string; code: number; tempUserData: User.tempUserData; };
         this.store.dispatch(AuthActions.authEmailVerified(payload));
-      } else {
-        throw Error('Email credentials are not verified');
-      }
     })
   }
 

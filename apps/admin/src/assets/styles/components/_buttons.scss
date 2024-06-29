@@ -27,4 +27,11 @@ button {
         background: #f6f7f7;
         color: $blue-bg;
     }
+    &.invalid {
+        opacity: .50;
+        &:hover {
+            background: $blue-bg;
+            color: #fff;
+        }
+    }
 }

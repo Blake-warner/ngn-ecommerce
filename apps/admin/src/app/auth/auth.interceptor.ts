@@ -37,6 +37,10 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       console.log(refreshTokenExp);
       console.log(accessTokenExp);
       let modifiedReq;
+      if(refreshTokenExp == accessTokenExp === null) {
+        console.log('tokens are null');
+        return next(req);
+      }
       if (refreshTokenExp === false) {
         console.log('refresh token is valid');
         if (accessTokenExp) {
