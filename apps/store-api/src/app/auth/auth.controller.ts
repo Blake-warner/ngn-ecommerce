@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Get, HttpCode, HttpStatus, Post, Query, Request, UnauthorizedException, UseGuards } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, HttpCode, HttpStatus, Post, Query, Request, Res, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { SigninDto } from './dtos/signin.dto';
 import { SignupDto } from './dtos/signup.dto';
 import { AuthService } from './auth.service';
@@ -17,6 +17,7 @@ import { RefreshTokenDto } from './dtos/refresh-token.dto';
 import { Auth } from './decorators/auth.decorator';
 import { AuthType } from './enums/auth-type.enum';
 import { User } from '../users/user.entity';
+import { Response } from 'express';
 
 const rootPath = CONSTANTS.versions; // /v1
 
@@ -35,8 +36,10 @@ export class AuthController {
 
     @HttpCode(HttpStatus.OK)
     @Post('auth/signin')
-    async signin(@Body() body: SigninDto) {
-        const signInResponse = this.authService.signIn(body.email, body.password);
+    async signin(@Body() body: SigninDto, @Res({passthrough: true}) response: Response) {
+        const signInResponse = await this.authService.signIn(body.email, body.password);
+        response.cookie('jwt', signInResponse, {httpOnly: true});
+        console.log(response.cookie);
         console.log(signInResponse);
         return signInResponse;
     }
@@ -44,9 +47,7 @@ export class AuthController {
     @HttpCode(HttpStatus.CREATED)
     @Post('auth/signup')
     async signup(@Body() body: SignupDto): Promise<unknown> {
-        console.log('Signup executed!: ', body);
         const signUpResponse = this.authService.signUp(body);
-        console.log('signup response: ', signUpResponse);
         return signUpResponse;
     }
 

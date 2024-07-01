@@ -15,13 +15,16 @@ export class AccessTokenGuard implements CanActivate {
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const request = context.switchToHttp().getRequest();
         const token = this.extractTokenFromHeader(request);
+        console.log('tgadns sbhtabzg: ', token);
         if (!token) {
+            console.log('token is undefined!')
             throw new UnauthorizedException();
         }
         try {
             const payload = this.jwtService.verifyAsync(token, this.jwtConfiguration);
             request[REQUEST_USER_KEY] = payload;
         } catch {
+            console.log('error thrown');
             throw new UnauthorizedException();
         }
         return true;

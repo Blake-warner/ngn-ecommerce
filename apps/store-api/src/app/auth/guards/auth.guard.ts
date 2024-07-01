@@ -1,6 +1,5 @@
 import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { Request } from 'express';
 import { Reflector } from '@nestjs/core';
 import { AuthType } from '../enums/auth-type.enum';
 import { AUTH_TYPE_KEY } from '../decorators/auth.decorator';
@@ -26,7 +25,7 @@ export class AuthGuard implements CanActivate {
     const authTypes = this.reflector.getAllAndOverride<AuthType[]>(
       AUTH_TYPE_KEY,
       [context.getHandler(), context.getClass()] 
-    ) ??[ AuthGuard.authGuardDefault];
+    ) ?? [ AuthGuard.authGuardDefault];
     let error = new UnauthorizedException();
     const guards = authTypes.map((type) => this.authTypeGuardMap[type]).flat();
     for(const guard of guards) {

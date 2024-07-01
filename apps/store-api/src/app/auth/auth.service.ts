@@ -100,7 +100,7 @@ export class AuthService {
     payload?: T,
   ) {
     console.log('jwtConfig: ', this.jwtConfiguration)
-    const jwtToken = this.jwtService.signAsync(
+    return await this.jwtService.signAsync(
       {
         sub: userId,
         ...payload
@@ -112,7 +112,6 @@ export class AuthService {
         expiresIn
       },
     );
-    console.log('jwtToken: ', jwtToken);
   }
 
   async generateTokens(user: User) {

@@ -1,4 +1,4 @@
-import { Controller, Get, Body, Put, Param, Delete, Inject, HttpStatus, HttpCode } from '@nestjs/common';
+import { Controller, Get, Body, Put, Param, Delete, Inject, HttpStatus, HttpCode, UseGuards } from '@nestjs/common';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UserService } from './user.service';
 import { Cache } from "cache-manager";
@@ -18,7 +18,7 @@ export class UserController {
         @Inject(CACHE_MANAGER) private cacheManager: Cache,
         private userService: UserService,
         private eventEmitter: EventEmitter2
-        ){}
+    ){}
 
     @Get('users')
     findAll() {

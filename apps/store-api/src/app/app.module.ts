@@ -16,9 +16,7 @@ import { MailModule } from './mailer/mailer.module';
   imports: [
     ProductModule,
     CategoryModule,
-    ConfigModule.forRoot({
-      isGlobal: true,
-    }),
+    ConfigModule.forRoot(),
     AttributeModule,
     SharedModule,
     EventEmitterModule.forRoot(),

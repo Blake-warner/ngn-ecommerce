@@ -26,3 +26,21 @@
     div {display: none}
 }
 :target {display: block}
+.tabs{
+    display: flex;
+    .tabs-menu {
+        box-sizing: border-box;
+        width: 360px;
+        .menu-item {
+            cursor: pointer;
+            a {
+                padding: 10px;
+                display: block;
+            }
+        }
+    }
+    .tabs-display {
+        box-sizing: border-box;
+        width: calc(100% - 360px);
+    }
+}
