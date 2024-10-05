@@ -40,6 +40,10 @@
               </div>
             <button type="submit" [ngClass]="f.invalid ? 'invalid' : ''"[disabled]="f.invalid" >Sign up</button>
           </form>
+          <div class="has-account">
+            <p>Already have an account? </p>
+            <a routerLink="signin">Sign In</a>
+          </div>
     </main>
     <main id="form-email-code" class="w-100 m-auto">
         <form #vef="ngForm" class="verify-email-form" (ngSubmit)="onVerifyEmailSubmit(vef)">

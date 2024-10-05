@@ -11,9 +11,9 @@ import { CommonModule } from '@angular/common';
 export class ProductDataComponent {
 
   display_product_data(tabName: string) {
-    document.querySelectorAll('.tabs-display div').forEach((div) => {
+    document.querySelectorAll('.tabs-display > div').forEach((div) => {
       if(div.id !== tabName) {
-        div.classList.remove('show');;
+        div.classList.remove('show');
       }
     });
     (document.getElementById(tabName) as HTMLElement).classList.add('show');

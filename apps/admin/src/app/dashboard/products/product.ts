@@ -3,9 +3,9 @@ import { ProductCategory } from './product-categories/product-category';
 
 export interface Product {
     id: number;
-    sku: number,
-    title: string,
-    price: number,
+    sku: string;
+    title: string;
+    price: number;
     description: number,
     attributes: Attribute[],
     sales_price?: number,

@@ -23,10 +23,10 @@
 
 // Product Data
 .tabs-display {
-    div {display: none}
+    &> div {display: none}
 }
 :target {display: block}
-.tabs{
+.tabs {
     display: flex;
     .tabs-menu {
         box-sizing: border-box;
@@ -44,3 +44,4 @@
         width: calc(100% - 360px);
     }
 }
+

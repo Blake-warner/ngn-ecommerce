@@ -18,6 +18,12 @@ input:focus-visible {
     box-shadow: none;
 }
 
+input:focus {
+    border-color: $input-focus;
+    box-shadow: none;
+    outline: 2px solid transparent;
+}
+
 input[type=file] {
     padding: 0;
 }

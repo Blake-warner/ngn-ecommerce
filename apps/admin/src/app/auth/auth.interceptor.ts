@@ -2,7 +2,7 @@ import { HttpClient, HttpInterceptorFn } from '@angular/common/http';
 import { Store } from '@ngrx/store';
 import * as appStore from '../store';
 import { inject } from '@angular/core';
-import { exhaustMap, take } from 'rxjs';
+import { exhaustMap, map, take } from 'rxjs';
 import { jwtDecode } from "jwt-decode";
 import { User } from './user';
 import * as CONSTANTS from '../shared/constants';
@@ -36,12 +36,22 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       }
       if (refreshTokenExp === false) {
         if (accessTokenExp) {
-          http.post<AuthData>(CONSTANTS.REFRESH_TOKENS_ENDPOINT, authState.refreshToken).subscribe((response) =>{
-            modifiedReq = req.clone({
-              setHeaders: {
-                Authorization: `Bearer ${response.accessToken}`,
+          http.post<AuthData>(CONSTANTS.REFRESH_TOKENS_ENDPOINT, authState.refreshToken).pipe(
+            map((response) => {
+              console.log('from interceptors: ', response);
+              if(response.accessToken && response.refreshToken && response.user) {
+                modifiedReq = req.clone({
+                  setHeaders: {
+                    Authorization: `Bearer ${response.accessToken}`,
+                  }
+                });
+                return modifiedReq;
               }
-            });
+              throw 'Error calling refresh token to create new auth token';
+            })
+          ).subscribe({
+            next: () => console.log('Refresh token validated and created a new verifyed auth token.'),
+            error: err => console.log(err)
           });
         } else {
           modifiedReq = req.clone({
@@ -58,3 +68,4 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     }),
   );
 };
+
