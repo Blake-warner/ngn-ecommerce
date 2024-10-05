@@ -5,6 +5,7 @@ import { MainMenuComponent } from '../main-menu/main-menu.component';
 import { Store } from '@ngrx/store';
 import * as appStore from '../store/index';
 import { AuthActions } from '../auth/store/auth.actions';
+import { ProductActions } from './products/store/product.actions';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,20 +15,17 @@ import { AuthActions } from '../auth/store/auth.actions';
   styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent implements OnInit {
+  
   constructor(private store: Store<appStore.State>) {}
 
-  getState() {
-    console.log('get state btn');
+  getState() { 
     this.store.select(appStore.auth).subscribe((state) => {
       console.log('state: ', state);
     });
   }
 
   ngOnInit() {
-    console.log('dashboard compnoent')
-    this.store.select(appStore.auth).subscribe((state) => {
-      console.log('state: ', state);
-    });
+    this.store.dispatch(ProductActions.fetchProducts());
   }
 
   onSignOut() {

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Put, Param, Delete, Inject, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete, Inject, UseInterceptors, UseGuards } from '@nestjs/common';
 import { CreateProductDto } from './dtos/create-product.dto';
 import { UpdateProductDto } from './dtos/update-product.dto';
 import { ProductService } from './product.service';
@@ -6,12 +6,14 @@ import { Cache } from "cache-manager";
 import * as CONSTANTS from '../shared/constants';
 import { CACHE_MANAGER, CacheInterceptor, CacheKey, CacheTTL } from '@nestjs/cache-manager';
 import { EventEmitter2 } from "@nestjs/event-emitter";
-import { AuthType } from '../auth/enums/auth-type.enum';
+//import { AuthType } from '../auth/enums/auth-type.enum';
 import { Auth } from '../auth/decorators/auth.decorator';
+import { AuthGuard } from '../auth/guards/auth.guard';
 
 const rootPath = CONSTANTS.versions; // /v1
 
-@Auth(AuthType.Bearer)
+//@Auth(AuthType.Bearer)
+@UseGuards(AuthGuard)
 @Controller(rootPath)
 export class ProductController {
     constructor(
@@ -32,7 +34,7 @@ export class ProductController {
         }
 
         try {
-            const products = this.productService.save(createProductDto);
+            const products = await this.productService.save(createProductDto);
             this.eventEmitter.emit('products_updated');
             return products;
         } catch (err) {

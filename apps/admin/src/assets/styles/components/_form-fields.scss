@@ -15,8 +15,13 @@ input[type=checkbox] {
 }
 
 input:focus-visible {
-    border: $blue-bg!important;
     box-shadow: none;
+}
+
+input:focus {
+    border-color: $input-focus;
+    box-shadow: none;
+    outline: 2px solid transparent;
 }
 
 input[type=file] {

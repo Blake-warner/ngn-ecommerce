@@ -2,7 +2,8 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Product } from "./product";
 import * as CONSTANTS from '../../shared/constants';
-import { BehaviorSubject, Subject } from "rxjs";
+import { BehaviorSubject, Observable, Subject } from "rxjs";
+import * as appStore from '../../store/index';
 
 @Injectable({
     providedIn: 'root'
@@ -14,15 +15,15 @@ export class ProductsService {
 
     }
 
-    fetchProducts() {
+    fetchProducts(): Observable<Product[]> {
         return this.http.get<Product[]>(CONSTANTS.PRODUCTS_ENDPOINT);
     }
 
-    fetchProductsById(id: number) {
+    fetchProductsById<Product>(id: number): Observable<Product> {
         return this.http.get<Product>(CONSTANTS.PRODUCT_ENDPOINT+'/'+id);
     }
 
-    saveProduct(product: Product) {
+    saveProduct(product: Product): Observable<object> {
         return this.http.post<Product>(CONSTANTS.PRODUCTS_ENDPOINT, product);
     }
 

@@ -45,5 +45,8 @@ import { AccessTokenGuard } from './guards/access-token.guard';
     },
     AccessTokenGuard,
   ],
+  exports: [
+    AccessTokenGuard
+  ]
 })
 export class AuthModule {}
